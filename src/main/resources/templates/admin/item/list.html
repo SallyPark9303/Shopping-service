@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
+    <title>상품 목록</title>
+</head>
+<body>
+<h2>상품목록</h2>
+<table class="tb_col">
+    <tr>
+        <th>번호</th>
+        <th>상품명</th>
+        <th>가격</th>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.Id}"></td>
+        <td th:text="${item.ItemName}" th:onclick="|location.href='@{/admin/item/detail/{id}(id=${item.Id})}'|"></td>
+        <td th:text="${item.Price}"></td>
+        <td><button type="button" class="btn btn-primary"   th:onclick="|location.href='@{/admin/item/delete/{id}(id=${item.Id})}'|">삭제</button></td>
+    </tr>
+</table>
+<div class="d-flex">
+    <button type="button" class="btn btn-primary me-2"  th:onclick="|location.href='@{/admin/item/add}'|">등록</button>
+    <button type="button" class="btn btn-primary"   th:onclick="|location.href='@{/admin/item/list}'|">취소</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
+    <title>상품 수정</title>
+</head>
+<body>
+<h2>상품 수정</h2>
+<form  th:action="@{/admin/item/edit/${item.Id}}" method="post"  class="wm-400px">
+    <div class="input-group mb-3">
+        <span class="input-group-text" >상품 명</span>
+        <input type="tex" name="ItemName" th:value="${item.ItemName}" class="form-control"  >
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" >상품 가격</span>
+        <input type="text" name="Price" th:value="${item.Price}" class="form-control"  >
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">상세 설명</span>
+        <input type="text" name="Description" th:value="${item.Description}" class="form-control"  >
+    </div>
+    <div class="d-flex">
+    <button type="submit" class="btn btn-primary me-2" >저장</button>
+    <button type="button" class="btn btn-primary"   th:onclick="|location.href='@{/admin/item/list}'|">취소</button>
+</div>
+</form>
+</body>
+</html>
