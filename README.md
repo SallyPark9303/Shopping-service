@@ -10,3 +10,5 @@ spec
 History
 
 2023-07-11 : Create project
+
+2023-07-12 : Item Management CRUD
