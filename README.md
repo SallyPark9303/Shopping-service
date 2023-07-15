@@ -13,4 +13,4 @@ History
 
 2023-07-12 : Item Management CRUD
 
-2023-07-15 : Add Home UI, Member,Admin,Login,Join Form ,Spring message Function , Spring Interceptor Function
+2023-07-15 : Add Home UI, Member,Admin,Login,Join Form ,Spring message Function , Spring Interceptor Function, HttpSession Login Function
