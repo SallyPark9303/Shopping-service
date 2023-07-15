@@ -12,3 +12,5 @@ History
 2023-07-11 : Create project
 
 2023-07-12 : Item Management CRUD
+
+2023-07-15 : Add Home UI, Member,Admin,Login,Join Form 
