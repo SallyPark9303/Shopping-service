@@ -1,4 +1,4 @@
-package shoppingproject.shop.admin.item;
+package shoppingproject.shop.web.item;
 
 
 import lombok.RequiredArgsConstructor;
@@ -6,10 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import shoppingproject.shop.model.item.Item;
-import shoppingproject.shop.model.item.ItemRepository;
+import shoppingproject.shop.domain.item.Item;
+import shoppingproject.shop.domain.item.ItemRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @Controller

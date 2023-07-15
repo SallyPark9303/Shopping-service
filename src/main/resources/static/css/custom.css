@@ -1,0 +1,41 @@
+body{
+font-size:11.5px !important;
+font-family: 'Noto Sans KR', 'sans-serif' !important;
+}
+
+a, body, div, input, label, li, p, ul{
+font-size:1rem !important;
+font-weight: 400 !important;
+font-family: 'Noto Sans KR', 'sans-serif';
+}
+
+a,.nav-link{
+   color:white;
+}
+.navbar-toggler:focus{
+ box-shadow:none;
+}
+
+button:focus{
+box-shadow:none;
+}
+
+.navbar-brand{
+font-family: 'Noto Serif KR';
+
+}
+
+.form-control:focus{
+    box-shadow:none;
+    border-color:none;
+}
+.field-error {
+ border-color: #dc3545;
+ color: #dc3545;
+ }
+ .btn-check:focus+.btn, .btn:focus{
+    box-shadow:none;
+ }
+ .btn,td,th,tr{
+ font-size:11.5px;
+ }

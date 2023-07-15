@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:insert="~{fragment/adminHeader :: header}">
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+</head>
+<body class="container-fluid">
+<nav th:replace="~{fragment/adminHeader :: nav}"></nav>
+<div class="align-center container mt-5">
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">이름</th>
+            <th scope="col">아이디</th>
+            <th scope="col">정보</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mem, memStat : ${members}">
+            <th th:text="${memStat.count}"></th>
+            <th th:text="${mem.name}"></th>
+            <td th:text="${mem.loginId}"></td>
+            <td><button type="button" class="btn btn-outline-info">상세 정보</button></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

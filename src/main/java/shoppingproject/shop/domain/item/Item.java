@@ -1,4 +1,4 @@
-package shoppingproject.shop.model.item;
+package shoppingproject.shop.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;

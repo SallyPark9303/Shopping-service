@@ -6,21 +6,24 @@
     <title>상품 등록</title>
 </head>
 <body>
+<div class="container">
+    <nav th:replace="~{fragment/header :: nav}"></nav>
 <h2>상품 등록</h2>
 <form th:action="@{/admin/item/add}" method="post"  class="wm-400px">
         <div class="input-group mb-3">
-            <span class="input-group-text" >상품 명</span>
+            <span class="input-group-text" th:text="#{item.name}" ></span>
             <input type="tex" name="ItemName" class="form-control" >
     </div>
     <div class="input-group mb-3">
-        <span class="input-group-text" >상품 가격</span>
+        <span class="input-group-text" th:text="#{item.price}" ></span>
         <input type="text" name="Price" class="form-control" >
     </div>
     <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">상세 설명</span>
-        <input type="text" name="Description" class="form-control" >
+        <span class="input-group-text" id="basic-addon1" th:text="#{item.description}"></span>
+        <textarea class="form-control" rows="3" name="Description" ></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">저장</button>
+    <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
 </form>
+</div>
 </body>
 </html>

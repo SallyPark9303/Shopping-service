@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+    <meta charset="UTF-8">
+    <title>회원 가입</title>
+</head>
+<body>
+<div class="container py-5">
+    <div class="row py-5 m-auto">
+        <div class="text-center p-3">
+            <h2 class="m-auto"  th:text="#{join}" ></h2>
+        </div>
+
+        <form class="col-md-9 m-auto"  th:action method="post" n th:object="${mem}" role="form">
+            <div class="row">
+                <div class="form-group col-md-6 mb-3">
+                    <label for="loginId"  th:text="#{mem.loginId}">Name</label>
+                    <input type="text" class="form-control mt-1" id="loginId"  th:field="*{loginId}"
+                    th:errorclass="field-error" placeholder="loginId">
+                    <div class="field-error" th:errors="*{loginId}"></div>
+                </div>
+                <div class="form-group col-md-6 mb-3">
+                    <label for="password" th:text="#{mem.password}"></label>
+                    <input type="password" class="form-control mt-1 password" id="password"  th:field="*{password}"
+                           th:errorclass="field-error" placeholder="Password">
+                    <div class="field-error" th:errors="*{password}"></div>
+                </div>
+                <div class="form-group col-md-6 mb-3">
+                    <label for="name"  th:text="#{mem.name}">Name</label>
+                    <input type="text" class="form-control mt-1" id="name" th:field="*{name}"
+                           th:errorclass="field-error"  placeholder="Name">
+                    <div class="field-error" th:errors="*{name}"></div>
+                </div>
+                <div class="form-group col-md-6 mb-3">
+                    <label for="email"  th:text="#{mem.email}">Email</label>
+                    <input type="email" class="form-control mt-1" id="email" th:field="*{email}"
+                           th:errorclass="field-error"  placeholder="Email">
+                    <div class="field-error" th:errors="*{email}"></div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="contact" th:text="#{mem.contact}"></label>
+                <input type="text" class="form-control mt-1" id="contact" name="contact" th:field="*{contact}"
+                       th:errorclass="field-error" placeholder="Contact">
+                <div class="field-error" th:errors="*{contact}"></div>
+            </div>
+            <div class="mb-3">
+                <label th:text="#{mem.gender}"></label>
+                <div class="d-flex">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1" th:text="#{man}">
+                            Default radio
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2"  th:text="#{woman}">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col text-end mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-3"  th:text="#{join}" ></button>
+                    <button type="submit" class="btn btn-light btn-lg px-3"  th:text="#{button.cancel}" th:onclick="|location.href='@{/home}'|"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
