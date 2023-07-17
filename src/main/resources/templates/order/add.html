@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+</head>
+<body>
+<div class="container-fluid">
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <!-- 주문서 시작 -->
+    <div class="container">
+        <div id="order">
+            <div class="page-body">
+                <form name="form1" id="order_form" action="/shop/orderin.html" method="post">
+                    <fieldset>
+                        <legend class="text-center fw-bold py-5" style="border-bottom:2px solid;">주문서</legend>
+
+                        <!--h3>주문리스트</h3-->
+                        <div class="tbl-order" style="border-top:0; border-bottom:1px solid;">
+                            <table>
+                                <caption>주문리스트</caption>
+                                <colgroup>
+                                    <col style="width: 200px">
+                                    <col style="width: 400px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th scope="col"><div class="tb-center"></div></th>
+                                    <th scope="col"><div class="tb-center">상품명</div></th>
+                                    <th scope="col"><div class="tb-center">수량</div></th>
+                                    <th scope="col"><div class="tb-center">가격</div></th>
+                                    <th scope="col"><div class="tb-center">적립금</div></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="nbg">
+                                    <td>
+                                        <div class="tb-center">
+                                            <div class="thumb">
+                                                <a href="/shop/shopdetail.html?branduid=2063559"><img  style="width:100px" src="//cdn1-aka.makeshop.co.kr/shopimages/xexymix/0330040002523.jpg" alt="상품 섬네일" title="상품 섬네일"></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-left">
+                                           <p style="font-size:11px">조거팬츠 1+1</p>
+
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center">1개</div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center">
+                                            68,800원
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center">680</div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- .table-order -->
+
+                        <h3 class="m-3">주문자 정보</h3>
+                        <div class="tbl-order">
+                            <table>
+                                <caption>주문자 정보</caption>
+                                <colgroup>
+                                    <col style="width:200px">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">이름</div></th>
+                                    <td>
+                                        원경
+                                        <input type="hidden" name="sender" form="order_form" id="sender" class="MS_input_txt" value="원경">                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">이메일</div></th>
+                                    <td>
+                                        <input type="text" name="email1" id="email1" class="form-control" maxlength="20" form="order_form">
+                                        <span>@</span>
+                                        <span id="direct_email" style="margin-top:3px;display:inline-block">
+        <input type="text" name="email3" id="email3" value="naver.com" class="MS_input_txt" disabled="" maxlength="25" form="order_form">
+    </span>
+                                        <select name="emailsel" id="emailsel" class="MS_select MS_email" style="margin-right:5px;" onchange="viewdirect()">
+                                            <option value="direct">직접입력</option><option value="naver.com" selected="selected">naver.com</option><option value="hotmail.com">hotmail.com</option><option value="hanmail.net">hanmail.net</option><option value="yahoo.com">yahoo.com</option><option value="nate.com">nate.com</option><option value="korea.com">korea.com</option><option value="chol.com">chol.com</option><option value="gmail.com">gmail.com</option><option value="netian.com">netian.com</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">연락처</div></th>
+                                    <td>
+                                        <input type="text" name="emergency11" form="order_form" id="emergency11" size="4" maxlength="4" class="form-control contact-input" value="">            -
+                                        <input type="text" name="emergency12" form="order_form" id="emergency12" size="4" maxlength="4" class="form-control contact-input" value="">
+                                        -
+                                        <input type="text" name="emergency13" form="order_form" id="emergency13" size="4" maxlength="4" minlength="4" class="form-control contact-input" value="">                                        </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- .tbl-order -->
+
+                        <h3 class="m-3">배송 정보</h3>
+                        <label>　        <input type="checkbox" name="same" form="order_form" id="same" onclick="copydata()"> 위 정보와 같음</label>
+                        <div class="tbl-order">
+                            <table>
+                                <caption>배송 정보 입력</caption>
+                                <colgroup>
+                                    <col style="width:200px">
+                                    <col>
+                                    <col style="width:200px">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">이름</div></th>
+                                    <td colspan="3">        <input type="text" name="receiver" form="order_form" id="receiver" class="form-control" value=""></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">연락처 1</div></th>
+                                    <td>
+                                        <input type="text" name="emergency31" form="order_form" id="emergency31" size="4" maxlength="4" class="form-control contact-input" value="">            -
+                                        <input type="text" name="emergency32" form="order_form" id="emergency32" size="4" maxlength="4" class="form-control contact-input" value="">
+                                        -
+                                        <input type="text" name="emergency33" form="order_form" id="emergency33" size="4" maxlength="4" minlength="4" class="form-control contact-input" value="">                                        </td>
+                                    <th scope="row" style="border: 1px solid #eee"><div class="txt-c">연락처 2</div></th>
+                                    <td style="padding-left: 10px">
+                                        <input type="text" name="emergency21" form="order_form" id="emergency21" size="4" maxlength="4" value="" class="form-control contact-input">            -
+                                        <input type="text" name="emergency22" form="order_form" id="emergency22" size="4" maxlength="4" class="form-control contact-input" value="">
+                                        -
+                                        <input type="text" name="emergency23" form="order_form" id="emergency23" size="4" maxlength="4" minlength="4" class="form-control contact-input" value="">                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">배송지 선택</div></th>
+                                    <td colspan="3">
+                                        &nbsp;&nbsp;<input type="radio" value="A" name="place" form="order_form">최근 배송지
+                                        &nbsp;&nbsp;<input type="radio" value="B" name="place" form="order_form">신규 배송지
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">주소</div></th>
+                                    <td colspan="3">
+                                        <input name="post1" id="post1" form="order_form" size="6" class="form-control d-inline w-80px" onclick="this.blur();post();">
+                                        <button type="button"  class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login/admin}'|" th:text="#{button.post-num}">우편 번호</button>
+                                        <div class="mt-10">
+                                            <input type="text" name="address1" form="order_form" id="address1" size="50" class="form-control" readonly="">
+                                                 <input type="text" name="address2" form="order_form" id="address2" size="50" class="form-control">                                            </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><div class="txt-l">배송메세지<br><span>(100자내외)</span></div></th>
+                                    <td colspan="3">
+                                        <textarea name="delivery_message" form="order_form" id="delivery_message" cols="50" rows="5" class="form-control" style="width:100%;"></textarea>
+                                        <div class="MS_order_ms_count">
+                                            <span id="MS_delivery_ms_basis">0</span>/200 bytes
+                                            <span class="MS_order_ms_desc">(* 영문/숫자 기준 <span class="MS_order_ms_maxlen_en">200</span>자, 한글 기준 <span class="MS_order_ms_maxlen_en"></span>자까지 입력 가능합니다.)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div><!-- .tbl-order -->
+
+                        <label class="chk-label">        <input type="checkbox" name="modify_address" form="order_form" id="modify_address" value="Y"> 해당 배송지 정보를 나의 회원정보로 등록합니다.</label>
+                        <!-- //if_not_is_present -->
+                        <div class="tbl-order tot-order z-index1">
+                            <table>
+                                <caption></caption>
+                                <colgroup>
+                                    <col style="width: 150px">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>최종 결제금액</th>
+                                    <td>
+                                        <strong class="price"><em><span id="block_unit_dollar" style="display:none">$</span> <span id="op_total_price">66,736</span></em> <span id="block_unit_won">원</span></strong> &nbsp;
+                                        <span id="block_all_expect_reserve" style="display:;">                                                        (적립예정: <span id="block_expect_reserve" data-original-reserve="1340" coupon-reserve="0">1,340</span>원)
+                                                        <div class="reserve-msg">(적립 예정금액과 최종 적립금액은 상이할 수 있습니다. 주문 완료 시 지급되는 적립금을 확인해주시기 바랍니다.)</div>
+                                                    </span>                                                                                            </td>
+                                </tr>
+
+                                </thead></table>
+                        </div><!-- .tbl-pay -->
+
+                        <div class="btn-order-ctrl">
+                            <div class="py-3 text-center">
+                                <button type="button"  class="btn btn-outline-warning me-3" th:onclick="|location.href='@{/login/admin}'|" th:text="#{button.order}">주문</button>
+                                <button type="button"  class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login/admin}'|" th:text="#{button.cancel}">취소</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>                    </div><!-- .page-body -->
+        </div>
+
+    </div>
+
+    <!-- 주문서 종료 -->
+
+</div>
+<footer  th:replace="~{fragment/footer :: footer}">
+
+</footer>
+</body>
+</html>

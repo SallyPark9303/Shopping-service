@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+    <meta charset="UTF-8">
+    <title>회원 가입</title>
+</head>
+<body>
+<div class="container py-5">
+    <div class="row py-5 m-auto">
+        <div class="text-center p-3">
+            <h2 class="m-auto"  th:text="#{question}" ></h2>
+        </div>
+
+        <div class="container py-5">
+            <div class="row py-5">
+                <form class="col-md-9 m-auto" method="post" role="form">
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="Subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message">Message</label>
+                        <textarea class="form-control mt-1" id="message" name="message" placeholder="Message" rows="8"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col text-end mt-2">
+                            <button type="submit" class="btn btn-success btn-sm px-3"  th:text="#{sendEmail}"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

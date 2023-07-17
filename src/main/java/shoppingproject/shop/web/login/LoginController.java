@@ -40,4 +40,17 @@ public class LoginController {
         session.setAttribute(CommonConst.LOGIN_MEMBER, loginMember);
         return "/admin/main";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        //세션을 삭제한다.
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        log.info("로그아웃");
+        return "redirect:/";
+    }
+
+
 }

@@ -17,22 +17,19 @@
     </head>
     <nav class="navbar navbar-expand-lg navbar-light shadow"  th:fragment="nav">
         <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand" href="#">감성</a>
+            <a class="navbar-brand" href="/">감성</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav flex-fill">
-                    <div class=" d-flex justify-content-between">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
+                    <div class="  d-lg-flex justify-content-between">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  th:text="#{category.man}">
                                 남성 의류
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.shirt}">상의</a></li>
+                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.shirt}" th:href="@{/item/listPage}">상의</a></li>
                                 <li><a class="dropdown-item" href="#"  th:text="#{category.man.pants}">하의 </a></li>
                             </ul>
                         </li>
@@ -46,7 +43,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"  th:text="#{question}">문의</a>
+                            <a class="nav-link"  th:onclick="|location.href='@{/customer/question}'|"  th:text="#{question}">문의</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" th:text="#{cart}">장바구니</a>
@@ -63,7 +60,7 @@
                         <div class="nav-icon d-flex align-items-center text-decoration-none me-3">
                             <i class="bi bi-bag-fill"></i>
                         </div>
-                        <div class="nav-icon d-flex align-items-center text-decoration-none">
+                        <div class="nav-icon d-flex align-items-center text-decoration-none" th:onclick="|location.href='@{/login/logout}'|">
                             <i class="bi bi-box-arrow-right"></i>
                         </div>
                     </div>

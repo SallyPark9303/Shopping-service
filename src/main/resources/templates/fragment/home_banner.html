@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="template-mo-zay-hero-carousel" class="carousel slide pointer-event" data-bs-ride="carousel"  th:fragment="banner">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class=""></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1" class=""></li>
+        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2" class="active"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="./img/women_shirts1.png" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left align-self-center">
+                            <h1 class="h1 text-success banner-str1"><b>감성</b> 쇼핑몰</h1>
+                            <h3 class="h2">립 크루넥 T</h3>
+                            <p>
+                                몸에 부드럽게 밀착되는 편안한 착용감
+                                적당한 두깨감의 립 소재
+                                <button type="button" class="btn btn-outline-success" th:onclick="|location.href='@{/item/detailPage}'|" th:text="#{link.itemdetail}">자세히 보기</button>
+                                <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/member/joinForm}'|" th:text="#{link.itemorder}">바로 구매</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="./img/banner_img_02.jpg" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                            <h1 class="h1">Proident occaecat</h1>
+                            <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                            <p>
+                                You are permitted to use this Zay CSS template for your commercial websites.
+                                You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid"  src="../img/banner_img_03.jpg" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                            <h1 class="h1">Repr in voluptate</h1>
+                            <h3 class="h2">Ullamco laboris nisi ut </h3>
+                            <p>
+                                We bring you 100% free CSS templates for your websites.
+                                If you wish to support TemplateMo, please make a small contribution via PayPal or tell your friends about our website. Thank you.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+</body>
+</html>
