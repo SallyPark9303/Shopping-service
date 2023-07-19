@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
-    <title>상품 상세</title>
+<head th:insert="~{fragment/adminHeader :: header}">
+    <title>상품 등록</title>
 </head>
 <body>
-<h2>상품 상세</h2>
-<form  th:action="@{/admin/item/edit/{id}(id=${item.Id})}" method="get" class=" wm-400px">
-    <div class="input-group mb-3">
-        <span class="input-group-tnext" >상품 명</span>
-        <input type="tex" name="ItemName" th:value="${item.ItemName}" class="form-control" readonly >
-    </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text" >상품 가격</span>
-        <input type="text" name="Price" th:value="${item.Price}" class="form-control"  readonly>
-    </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">상세 설명</span>
-        <input type="text" name="Descriptio" th:value="${item.Description}" class="form-control" readonly >
-    </div>
-    <button type="submit" class="btn btn-primary me-2"  >수정</button>
-    <button type="button" class="btn btn-primary"   th:onclick="|location.href='@{/admin/item/list}'|">취소</button>
-</form>
+<div class="container-fluid">
+                    <nav th:replace="~{fragment/adminHeader :: nav}"></nav>
+                    <div class="d-flex justify-content-center fs-2 my-5">상품 상세</div>
+                    <form th:action="@{/admin/item/save}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-md-12 mb-3">
+                                <label for="ItemName"   th:text="#{item.name}">Name</label>
+                                <div class=" mt-1" id="ItemName"  th:text="*{ItemName}"></div>
+                            </div>
+                                <div class="form-group col-md-6 mb-3">
+                                    <label for="Price" th:text="#{item.price}"></label>
+                                    <div class="mt-1" id="Price"  th:text="*{Price}"></div>
+                                </div>
+                                <div class="form-group col-md-12 mb-3">
+                                    <label for="Description" th:text="#{item.description}"></label>
+                                    <div  class=" mt-1" id="Description"  th:field="*{Description}"></div>
+                                </div>
+                            <div class="form-group col-md-6 mb-3">
+                                <label for="Description" >상품 색상</label>
+                                <div th:each="color : ${colors}" class="form-check form-check-inline">
+                                    <input type="checkbox" th:field="${item.colorList}" th:value="${color.key}" class="form-check-input" disabled>
+                                    <label th:text="${color.value}" class="form-check-label"></label>
+                                </div>
+                            </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label >상품 크기</label>
+                            <div th:each="size : ${sizes}" class="form-check form-check-inline">
+                                <input type="checkbox" th:field="${item.sizeList}" th:value="${size.key}" class="form-check-input" disabled>
+                                <label  th:text="${size.value}" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 mb-3">
+                            <div id="image_container">
+                                <img th:each="imageFile : ${item.imageFiles}" th:src="|/admin/item/images/${imageFile.getStoreFileName()}|" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-contents-right">
+                            <button type="submit" class="btn btn-primary me-3" style="width:100px" th:text="#{button.edit}"></button>
+                            <button type="button" class="btn btn-secondary me-3" style="width:100px" th:text="#{button.delete}" th:onclick="|location.href='@{/admin/item/delete}'|"></button>
+                            <button type="button" class="btn btn-secondary"  style="width:100px" th:text="#{button.cancel}"  th:onclick="|location.href='@{/admin/item/list}'|"  ></button>
+                        </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

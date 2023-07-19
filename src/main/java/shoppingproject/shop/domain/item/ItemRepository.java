@@ -14,6 +14,7 @@ public class ItemRepository {
     private static long sequence = 0L;
 
     public Item  save(Item item){
+
         item.setId(sequence++);
         store.put(item.getId(),item);
         return item;
@@ -30,8 +31,11 @@ public class ItemRepository {
         Item findItem = findById(itemId);
         findItem.setItemName(updateParam.getItemName());
         findItem.setPrice(updateParam.getPrice());
-        findItem.setQuantity(updateParam.getQuantity());
         findItem.setDescription(updateParam.getDescription());
+        findItem.setImageFiles(updateParam.getImageFiles());
+        findItem.setSizeList(updateParam.getSizeList());
+        findItem.setColorList(updateParam.getColorList());
+        store.replace(itemId, findItem);
     }
 
     public void delete(Long itemId){

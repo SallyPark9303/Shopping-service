@@ -70,10 +70,25 @@ td input {
     width:80px;
 }
 .w-90px{
-    width:900px;
+    width:90px;
 }
 .w-100px{
     width:100px;
+}
+.w-110px{
+    width:110px;
+}
+.w-120px{
+    width:120px;
+}
+
+.thumbnail{
+    width:100px;
+    height:150px;
+    margin-left:10px;
+}
+.thumbnail-list{
+
 }
 
 

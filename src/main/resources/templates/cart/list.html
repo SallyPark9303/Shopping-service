@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:insert="~{fragment/adminHeader :: header}">
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+</head>
+<body class="container-fluid">
+<nav th:replace="~{fragment/adminHeader :: nav}"></nav>
+<div class="align-center container mt-5">
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+        <th scope="col">선택</th>
+        <th scope="col"></th>
+        <th scope="col">상품 명</th>
+        <th scope="col">상품 가격</th>
+        <th scope="col">등록 일자</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cart, stat : ${items}">
+            <th th:text="${stat.count}"></th>
+            <th><input type="checkbox"  th:value="${cart.isSelect}"/></th>
+            <th><img class="card-img rounded-0 img-fluid" th:src="|/admin/item/images/${cart.imageFiles[0].getStoreFileName()}|"></th>
+            <th th:text="${cart.item.itemName}"></th>
+            <td th:text="${cart.item.Price}"></td>
+            <td th:text="${cart.item.CreateDate}"></td>
+            <td><button type="button" class="btn btn-outline-info"  th:onclick="|location.href='@{/admin/item/detail/{id}(id=${cart.Id})}'|">주문 취소</button></td>
+        </tr>
+
+        </tbody>
+    </table>
+    <div>
+        <button type="button" class="btn btn-success w-120px" >선택 상품 주문</button>
+    </div>
+</div>
+</body>
+</html>

@@ -1,29 +1,121 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
+<head th:insert="~{fragment/adminHeader :: header}">
     <title>상품 등록</title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <nav th:replace="~{fragment/header :: nav}"></nav>
-<h2>상품 등록</h2>
-<form th:action="@{/admin/item/add}" method="post"  class="wm-400px">
-        <div class="input-group mb-3">
-            <span class="input-group-text" th:text="#{item.name}" ></span>
-            <input type="tex" name="ItemName" class="form-control" >
+<div class="d-flex justify-content-center fs-2 my-5">상품 등록</div>
+<form th:action="@{/admin/item/save}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px" enctype="multipart/form-data">
+    <div class="row">
+        <div class="form-group col-md-6 mb-3">
+            <label for="ItemName"   th:text="#{item.name}">Name</label>
+            <input type="text" class="form-control mt-1" id="ItemName"  th:field="*{ItemName}"
+                   th:errorclass="field-error" placeholder="상품명">
+            <div class="field-error" th:errors="*{ItemName}"></div>
+        </div>
+        <div class="form-group col-md-6 mb-3">
+            <label for="Price" th:text="#{item.price}"></label>
+            <input type="text" class="form-control mt-1 password" id="Price"  th:field="*{Price}"
+                   th:errorclass="field-error" placeholder="가격">
+            <div class="field-error" th:errors="*{Price}"></div>
+        </div>
+        <div class="form-group col-md-12 mb-3">
+            <label for="Description" th:text="#{item.description}"></label>
+            <input type="text" class="form-control mt-1 password" id="Description"  th:field="*{Description}"
+                   th:errorclass="field-error" placeholder="상품 상세">
+            <div class="field-error" th:errors="*{Description}"></div>
+        </div>
+        <div class="form-group col-md-6 mb-3">
+            <label for="Description" >상품 색상</label>
+            <div th:each="color : ${colors}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${item.colorList}" th:value="${color.key}" class="form-check-input">
+                <label th:text="${color.value}" class="form-check-label"></label>
+            </div>
+        </div>
+        <div class="form-group col-md-6 mb-3">
+            <label for="Description" >상품 크기</label>
+            <div th:each="size : ${sizes}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${item.sizeList}" th:value="${size.key}" class="form-check-input">
+                <label  th:text="${size.value}" class="form-check-label"></label>
+            </div>
+        </div>
+        <div class="form-group col-md-12 mb-3">
+            <label for="imageFiles">등록 이미지 파일</label>
+            <input type="file" class="form-control mt-1 password"  multiple="multiple"  id="imageFiles"  th:field="*{imageFiles}"
+                   th:errorclass="field-error" accept="image/*" onchange="setThumbnail(event)">
+            <div class="field-error" th:errors="*{imageFiles}"></div>
+
+        </div>
+        <div class="form-group col-md-12 mb-3">
+                <div id="image_container">
+                    <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="100"/>
+                </div>
+
+
+        </div>
+        <div class="d-flex justify-contents-right">
+            <button type="submit" class="btn btn-primary me-3" style="width:100px" th:text="#{button.save}"></button>
+            <button type="button" class="btn btn-secondary"  style="width:100px" th:text="#{button.cancel}"  th:onclick="|location.href='@{/admin/item/list}'|"></button>
+        </div>
     </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text" th:text="#{item.price}" ></span>
-        <input type="text" name="Price" class="form-control" >
-    </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1" th:text="#{item.description}"></span>
-        <textarea class="form-control" rows="3" name="Description" ></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
 </form>
 </div>
+<script  th:inline="javascript">
+    // 등록이미지 미리보기
+
+      function setThumbnail(event) {
+        for (var image of event.target.files) {
+          var reader = new FileReader();
+
+          reader.onload = function(event) {
+          var div = document.createElement("div");
+          div.setAttribute("class","thumbnail-list");
+           document.querySelector("div#image_container").appendChild(div); // 썸네일감싸는 div
+            var img = document.createElement("img");  // 화면에 보일 썸네일
+              img.setAttribute("class", 'thumbnail');
+            img.setAttribute("src", event.target.result);
+            div.appendChild(img);
+            console.log("reader",reader);
+             var button = document.createElement('input'); // 업로드 삭제 버튼생성
+                button.type = 'button';
+                button.value = '삭제';
+                button.className = 'btn';
+                button.onclick = function() {
+                document.querySelector("div#image_container").removeChild(div); // 해당 자식클래스를 삭제한다.
+
+                };
+                 div.appendChild(button);
+          };
+          console.log(image);
+          reader.readAsDataURL(image);
+        }
+      }
+
+
+    function loadFile(input) {
+    var file = input.files[0];	//선택된 파일 가져오기
+
+    //미리 만들어 놓은 div에 text(파일 이름) 추가
+    var name = document.getElementById('displayImgName');
+    name.textContent = file.name;
+
+  	//새로운 이미지 div 추가
+    var newImage = document.createElement("displayImg");
+    newImage.setAttribute("class", 'img');
+
+    //이미지 source 가져오기
+    newImage.src = URL.createObjectURL(file);
+
+    newImage.style.width = "70%";
+    newImage.style.height = "70%";
+
+    //이미지를 image-show div에 추가
+    var container = document.getElementById('image-show');
+    container.appendChild(newImage);
+};
+
+</script>
 </body>
 </html>

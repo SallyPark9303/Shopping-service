@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/css/templatemo.min.css}"  rel="stylesheet">
-    <link   href="../css/custom.css" rel="stylesheet">
+    <link   th:href="@{/css/custom.css}"  rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
@@ -31,8 +31,8 @@
                             상품 관리
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" >상품 목록</a></li>
-                            <li><a class="dropdown-item" href="#" >상품 등록</a></li>
+                            <li><a class="dropdown-item" href="#"  th:href="@{/admin/item/list}">상품 목록</a></li>
+                            <li><a class="dropdown-item" href="#"  th:href="@{/admin/item/add}">상품 등록</a></li>
                             <li><a class="dropdown-item" href="#"  >리뷰 관리</a></li>
                         </ul>
                     </li>

@@ -46,7 +46,7 @@
                             <a class="nav-link"  th:onclick="|location.href='@{/customer/question}'|"  th:text="#{question}">문의</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" th:text="#{cart}">장바구니</a>
+                            <a class="nav-link" href="#" th:text="#{cart}"  th:href="@{/cart/list}">장바구니</a>
                         </li>
                     </div>
                 </ul>
@@ -59,6 +59,7 @@
                         </div>
                         <div class="nav-icon d-flex align-items-center text-decoration-none me-3">
                             <i class="bi bi-bag-fill"></i>
+                            <span th:if="${cartNum}" th:text="${cartNum}"></span>
                         </div>
                         <div class="nav-icon d-flex align-items-center text-decoration-none" th:onclick="|location.href='@{/login/logout}'|">
                             <i class="bi bi-box-arrow-right"></i>
