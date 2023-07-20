@@ -1,11 +1,11 @@
 # 스프링부트 - JPA 를 활용한 쇼핑몰 
-스프링부트 - JPA 를 활용한 쇼핑몰 
 
 spec
 
 1. Spring Boot
 2. Java
 3. Thymeleaf
+
 
 History
 
