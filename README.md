@@ -1,5 +1,5 @@
 # 스프링부트 - JPA 를 활용한 쇼핑몰 
-shopping mall website
+스프링부트 - JPA 를 활용한 쇼핑몰 
 
 spec
 
