@@ -4,21 +4,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import shoppingproject.shop.domain.Member.Member;
+import shoppingproject.shop.domain.Member;
 import shoppingproject.shop.domain.common.FileUtils;
-import shoppingproject.shop.domain.common.UploadFile;
 import shoppingproject.shop.domain.item.Item;
-import shoppingproject.shop.domain.item.ItemRepository;
+import shoppingproject.shop.repository.ItemRepository;
 import shoppingproject.shop.web.CommonConst;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -50,7 +46,7 @@ public class ItemController {
 
     @GetMapping("/detail")
     public String detailPage(@RequestParam("itemId") long itemid, Model model){
-        Item findItem = itemRepository.findById(itemid);
+        Item findItem = itemRepository.findOne(itemid);
         model.addAttribute("item",findItem);
         return "/item/detail";
 

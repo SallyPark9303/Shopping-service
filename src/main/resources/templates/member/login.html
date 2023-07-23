@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<div class="container py-5">
+    <div class="row py-5 m-auto">
+        <div class="text-center p-3">
+            <h2 class="m-auto"  th:text="#{login}" ></h2>
+        </div>
+        <form class="col-md-9 m-auto"  th:action method="post"  th:object="${login}" role="form">
+            <span th:if="${loginError}" th:text="${loginError}"></span>
+            <div class="row">
+                <div class="form-group col-md-6 mb-3">
+                    <label for="loginId"  th:text="#{mem.loginId}">Name</label>
+                    <input type="text" class="form-control mt-1" id="loginId"  th:field="*{loginId}"
+                    th:errorclass="field-error" placeholder="loginId">
+                    <div class="field-error" th:errors="*{loginId}"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 mb-3">
+                    <label for="password" th:text="#{mem.password}"></label>
+                    <input type="password" class="form-control mt-1 password" id="password"  th:field="*{password}"
+                           th:errorclass="field-error" placeholder="Password">
+                    <div class="field-error" th:errors="*{password}"></div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col text-end mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-3"  th:text="#{login}" ></button>
+                    <button type="button" class="btn btn-light btn-lg px-3"  th:text="#{button.cancel}" th:onclick="|location.href='@{/}'|"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

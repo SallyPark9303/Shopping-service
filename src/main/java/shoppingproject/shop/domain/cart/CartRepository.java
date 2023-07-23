@@ -34,8 +34,8 @@ public class CartRepository {
         findItem.setItemId(updateParam.getItemId());
         findItem.setItemId(updateParam.getItemId());
         findItem.setUserId(updateParam.getUserId());
-        findItem.setCreateDate(updateParam.getCreateDate());
-        findItem.setCreateUser(updateParam.getCreateUser());
+       /// findItem.setCreateDate(updateParam.getCreateDate());
+       // findItem.setCreateUser(updateParam.getCreateUser());
         cartrepo.replace(cartId, findItem);
     }
 

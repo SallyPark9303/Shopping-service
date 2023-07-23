@@ -21,7 +21,7 @@
             <th th:text="${memStat.count}"></th>
             <th th:text="${mem.name}"></th>
             <td th:text="${mem.loginId}"></td>
-            <td><button type="button" class="btn btn-outline-info">상세 정보</button></td>
+            <td><button type="button" class="btn btn-outline-info"  th:onclick="|location.href='@{/member/{id}/detailForm (id=${mem.id})}'|">상세 정보</button></td>
         </tr>
 
         </tbody>

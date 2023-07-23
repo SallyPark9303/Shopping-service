@@ -10,9 +10,9 @@
         <div class="text-center p-3">
             <h2 class="m-auto"  th:text="#{join}" ></h2>
         </div>
-
         <form class="col-md-9 m-auto"  th:action method="post"  th:object="${mem}" role="form">
             <div class="row">
+                <span th:if="${loginIdError}" th:text="${loginIdError}" class="field-error"></span>
                 <div class="form-group col-md-6 mb-3">
                     <label for="loginId"  th:text="#{mem.loginId}">Name</label>
                     <input type="text" class="form-control mt-1" id="loginId"  th:field="*{loginId}"
@@ -45,26 +45,35 @@
                 <div class="field-error" th:errors="*{contact}"></div>
             </div>
             <div class="mb-3">
-                <label th:text="#{mem.gender}"></label>
+                <label th:text="#{mem.memtype}"></label>
                 <div class="d-flex">
-                    <div class="form-check me-3">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1" th:text="#{man}">
-                            Default radio
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2"  th:text="#{woman}">
-                        </label>
-                    </div>
+                    <th:block th:each="gen,stat : ${gender}">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="gender" th:field="*{gender}"  th:value="${gen.name()}">
+                            <label class="form-check-label"  th:for="${#ids.prev('gender')}" th:text="${gen.description}">
+                                Default radio
+                            </label>
+                        </div>
+                    </th:block>
                 </div>
-
+            </div>
+            <div class="mb-3">
+                <label th:text="#{mem.memtype}"></label>
+                <div class="d-flex">
+                    <th:block th:each="type,stat : ${userTypes}">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="userType" th:field="*{userType}"  th:value="${type.name()}">
+                            <label class="form-check-label"  th:for="${#ids.prev('userType')}" th:text="${type.description}">
+                                Default radio
+                            </label>
+                        </div>
+                    </th:block>
+                </div>
             </div>
             <div class="row">
                 <div class="col text-end mt-4">
                     <button type="submit" class="btn btn-success btn-lg px-3"  th:text="#{join}" ></button>
-                    <button type="submit" class="btn btn-light btn-lg px-3"  th:text="#{button.cancel}" th:onclick="|location.href='@{/home}'|"></button>
+                    <button type="button" class="btn btn-light btn-lg px-3"  th:text="#{button.cancel}" th:onclick="|location.href='@{/}'|"></button>
                 </div>
             </div>
         </form>

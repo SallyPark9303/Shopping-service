@@ -7,11 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.model.IModel;
-import shoppingproject.shop.domain.Member.Member;
+import shoppingproject.shop.domain.Member;
 import shoppingproject.shop.domain.cart.Cart;
 import shoppingproject.shop.domain.cart.CartRepository;
-import shoppingproject.shop.domain.item.ItemRepository;
+import shoppingproject.shop.repository.ItemRepository;
 import shoppingproject.shop.web.CommonConst;
 
 import java.util.List;
