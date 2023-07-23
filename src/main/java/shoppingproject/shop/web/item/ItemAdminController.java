@@ -12,6 +12,7 @@ import shoppingproject.shop.domain.common.FileUtils;
 import shoppingproject.shop.domain.common.UploadFile;
 import shoppingproject.shop.domain.item.Color;
 import shoppingproject.shop.domain.item.Item;
+import shoppingproject.shop.domain.item.Size;
 import shoppingproject.shop.repository.ItemRepository;
 import org.springframework.core.io.*;
 import shoppingproject.shop.service.ItemService;
@@ -42,16 +43,6 @@ public class ItemAdminController {
            colors.put("black","black");
            colors.put("white","white");return colors;
        }
-//    @ModelAttribute("colors") public List<Color> Colors() {
-//        List<Color> colors = new ArrayList<>();
-//        colors.add(new Color("red"));
-//        colors.add(new Color("yellow"));
-//        colors.add(new Color("black"));
-//        colors.add(new Color("white"));
-//       return colors;
-//    }
-
-
     @ModelAttribute("sizes")
     public Map<String, String> sizes() {
         Map<String, String> sizes = new LinkedHashMap<>();
@@ -72,7 +63,7 @@ public class ItemAdminController {
 
     //등록 폼
     @GetMapping("/add")
-    public String addFrom(@ModelAttribute("item") Item form,Model model){
+    public String addFrom(@ModelAttribute("item") Item item,Model model){
         log.info("item.add");
 
         return "/admin/item/add";
@@ -83,31 +74,17 @@ public class ItemAdminController {
     public String saveItem(@ModelAttribute("item") Item form, RedirectAttributes
             redirectAttributes, Model model) throws IOException {
 
-
-      //  List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
-        //데이터베이스에 저장
-        Item item = new Item();
-
-        item.setItemName(form.getItemName());
-        item.setDescription(form.getDescription());
-        item.setPrice(form.getPrice());
-      //  item.setUploadFiles(storeImageFiles);
-        List<Color> colors = new ArrayList<>();
-
-        item.setColorList(colors);
-        item.setSizeList(form.getSizeList());
-        itemService.saveItem(item);
-        log.info("saved item");
-       // return "redirect:/admin/item/detail/"+savedItem.getId();
-        return "/admin/item/list";
+        List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
+        Item itm = Item.createItem(form, storeImageFiles);
+        itemService.saveItem(itm);
+        return "redirect:/admin/item/list";
     }
 
     //상세 폼
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}/detail")
     public String detailForm(Model model, @PathVariable Long id){
-        log.info("item.detail");
         Item item = itemRepository.findOne(id);
-        log.info("colorList ="+item.getColorList());
+        Item.getDetailItem(item);
 
         model.addAttribute("item",item);
         return "/admin/item/detail";
@@ -115,9 +92,14 @@ public class ItemAdminController {
 
 
     //수정 폼
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id,Model model){
         Item item = itemRepository.findOne(id);
+        Item.getDetailItem(item);
+        log.info("테스트 colors ={}",item.getColors());
+        log.info("테스트 결과값1 ={}",item.getColors().equals("blue"));
+        log.info("테스트 결과값2 ={}",item.getColors().contains("blue"));
+        log.info("테스트 결과값2 ={}",item.getColors().stream().equals("blue"));
         model.addAttribute("item",item);
         return "/admin/item/edit";
     }
@@ -142,9 +124,5 @@ public class ItemAdminController {
         log.info("filename ="+filename);
         return  new UrlResource("file:" + fileutils.getFullPath(filename));
     }
-
-
-
-
 
 }

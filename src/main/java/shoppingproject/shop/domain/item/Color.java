@@ -20,6 +20,11 @@ public class Color{
     @JoinColumn(name="item_id")
     private Item item ;
 
+    public Color(Item item,String color) {
+        this.setItem(item);
+        this.setName(color);
+    }
+
 }
 
 

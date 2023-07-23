@@ -13,6 +13,7 @@ import shoppingproject.shop.domain.Member;
 import shoppingproject.shop.domain.common.FileUtils;
 import shoppingproject.shop.domain.item.Item;
 import shoppingproject.shop.repository.ItemRepository;
+import shoppingproject.shop.service.ItemService;
 import shoppingproject.shop.web.CommonConst;
 
 import java.net.MalformedURLException;
@@ -25,6 +26,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
     private final FileUtils fileutils;
 
     @ModelAttribute("member")

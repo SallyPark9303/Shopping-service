@@ -11,39 +11,37 @@
                         <div class="row">
                             <div class="form-group col-md-12 mb-3">
                                 <label for="ItemName"   th:text="#{item.name}">Name</label>
-                                <div class=" mt-1" id="ItemName"  th:text="*{ItemName}"></div>
+                                <div class=" mt-1" id="ItemName"  th:text="*{itemName}"></div>
                             </div>
                                 <div class="form-group col-md-6 mb-3">
                                     <label for="Price" th:text="#{item.price}"></label>
-                                    <div class="mt-1" id="Price"  th:text="*{Price}"></div>
+                                    <div class="mt-1" id="Price"  th:text="*{price}"></div>
                                 </div>
                                 <div class="form-group col-md-12 mb-3">
                                     <label for="Description" th:text="#{item.description}"></label>
-                                    <div  class=" mt-1" id="Description"  th:field="*{Description}"></div>
+                                    <div  class=" mt-1" id="Description"  th:text="*{description}"></div>
                                 </div>
                             <div class="form-group col-md-6 mb-3">
                                 <label for="Description" >상품 색상</label>
-                                <div th:each="color : ${colors}" class="form-check form-check-inline">
-                                    <input type="checkbox" th:field="${item.colorList}" th:value="${color.key}" class="form-check-input" disabled>
-                                    <label th:text="${color.value}" class="form-check-label"></label>
+                                <div  class="form-check form-check-inline">
+                                    <span th:each="color : *{colorList}" th:text="${color.name}" class="badge text-bg-secondary p-2 me-2"></span>
                                 </div>
                             </div>
                         <div class="form-group col-md-6 mb-3">
                             <label >상품 크기</label>
-                            <div th:each="size : ${sizes}" class="form-check form-check-inline">
-                                <input type="checkbox" th:field="${item.sizeList}" th:value="${size.key}" class="form-check-input" disabled>
-                                <label  th:text="${size.value}" class="form-check-label"></label>
-                            </div>
+                            <div class="form-check form-check-inline">
+                                <span th:each="size : *{sizeList}"  th:text="${size.name}" class="badge text-bg-light p-2 me-2"></span>
+                        </div>
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <div id="image_container">
-                                <img th:each="imageFile : ${item.imageFiles}" th:src="|/admin/item/images/${imageFile.getStoreFileName()}|" width="100" />
+                                <img class="me-3" th:each="file : ${item.uploadFiles}" th:src="|/admin/item/images/${file.storeFileName}|" width="100"/>
                             </div>
 
                         </div>
                         <div class="d-flex justify-contents-right">
-                            <button type="submit" class="btn btn-primary me-3" style="width:100px" th:text="#{button.edit}"></button>
-                            <button type="button" class="btn btn-secondary me-3" style="width:100px" th:text="#{button.delete}" th:onclick="|location.href='@{/admin/item/delete}'|"></button>
+                            <button type="button" class="btn btn-primary me-3" style="width:100px" th:text="#{button.edit}" th:onclick="|location.href='@{/admin/item/{id}/edit(id =${item.Id})}'|"></button>
+                            <button type="button" class="btn btn-secondary me-3" style="width:100px" th:text="#{button.remove}" th:onclick="|location.href='@{/admin/item/delete}'|"></button>
                             <button type="button" class="btn btn-secondary"  style="width:100px" th:text="#{button.cancel}"  th:onclick="|location.href='@{/admin/item/list}'|"  ></button>
                         </div>
         </div>

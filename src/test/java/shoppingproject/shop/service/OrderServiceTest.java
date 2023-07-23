@@ -35,6 +35,7 @@ public class OrderServiceTest {
     OrderRepository orderRepository;
 
     @Test
+    @Rollback(value = false)
     public void 상품주문() throws Exception{
         Member member = new Member();
         member.setName("회원1");

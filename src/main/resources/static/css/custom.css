@@ -9,9 +9,9 @@ font-weight: 400 !important;
 font-family: 'Noto Sans KR', 'sans-serif';
 }
 
-a,.nav-link{
-   color:white;
-}
+/*a,.nav-link{*/
+/*   color:white;*/
+/*}*/
 .navbar-toggler:focus{
  box-shadow:none;
 }
@@ -83,11 +83,18 @@ td input {
 }
 
 .thumbnail{
-    width:100px;
-    height:150px;
+    width:120px;
     margin-left:10px;
 }
 .thumbnail-list{
+    width:150px;
+    margin-right: 5px;
+    position: relative;
+}
+.img-remove-btn{
+    position: absolute;
+    left: 83px;
+    position: absolute;
 
 }
 

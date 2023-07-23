@@ -11,33 +11,33 @@
     <div class="row">
         <div class="form-group col-md-6 mb-3">
             <label for="ItemName"   th:text="#{item.name}">Name</label>
-            <input type="text" class="form-control mt-1" id="ItemName"  th:field="*{ItemName}"
+            <input type="text" class="form-control mt-1" id="ItemName"  th:field="*{itemName}"
                    th:errorclass="field-error" placeholder="상품명">
-            <div class="field-error" th:errors="*{ItemName}"></div>
+            <div class="field-error" th:errors="*{itemName}"></div>
         </div>
         <div class="form-group col-md-6 mb-3">
             <label for="Price" th:text="#{item.price}"></label>
-            <input type="text" class="form-control mt-1 password" id="Price"  th:field="*{Price}"
+            <input type="text" class="form-control mt-1 password" id="Price"  th:field="*{price}"
                    th:errorclass="field-error" placeholder="가격">
-            <div class="field-error" th:errors="*{Price}"></div>
+            <div class="field-error" th:errors="*{price}"></div>
         </div>
         <div class="form-group col-md-12 mb-3">
             <label for="Description" th:text="#{item.description}"></label>
-            <input type="text" class="form-control mt-1 password" id="Description"  th:field="*{Description}"
-                   th:errorclass="field-error" placeholder="상품 상세">
-            <div class="field-error" th:errors="*{Description}"></div>
+            <textarea type="text" class="form-control mt-1 password" id="Description"  th:field="*{description}"
+                   th:errorclass="field-error" placeholder="상품 상세"/>
+            <div class="field-error" th:errors="*{description}"></div>
         </div>
         <div class="form-group col-md-6 mb-3">
             <label for="Description" >상품 색상</label>
             <div th:each="color : ${colors}" class="form-check form-check-inline">
-                <input type="checkbox" th:field="${item.colorList}" th:value="${color.key}" class="form-check-input">
+                <input type="checkbox" th:field="${item.colors}" th:value="${color.key}" class="form-check-input">
                 <label th:text="${color.value}" class="form-check-label"></label>
             </div>
         </div>
         <div class="form-group col-md-6 mb-3">
             <label for="Description" >상품 크기</label>
             <div th:each="size : ${sizes}" class="form-check form-check-inline">
-                <input type="checkbox" th:field="${item.sizeList}" th:value="${size.key}" class="form-check-input">
+                <input type="checkbox" th:field="${item.sizes}" th:value="${size.key}" class="form-check-input">
                 <label  th:text="${size.value}" class="form-check-label"></label>
             </div>
         </div>

@@ -17,4 +17,12 @@ public class Size{
     @JoinColumn(name="item_id")
     private Item item ;
 
+    public Size(Item item, String size) {
+        this.setItem(item);
+        this.setName(size);
+    }
+
+    public Size() {
+
+    }
 }

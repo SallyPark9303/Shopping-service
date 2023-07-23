@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import shoppingproject.shop.domain.item.Item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -17,7 +20,6 @@ public class UploadFile {
     private String uploadFileName;
     private String storeFileName;
     private String isRemove;
-
     @ManyToOne
    @JoinColumn(name="item_id")
    private Item item;
@@ -26,6 +28,14 @@ public class UploadFile {
     public UploadFile(String uploadFileName, String storeFileName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
+    }
+
+    public static List<UploadFile> createFile(List<UploadFile> files, Item item){
+        List<UploadFile> newFiles = files;
+        for(UploadFile file : newFiles){
+            file.item = item;
+        }
+        return newFiles;
     }
 
 }

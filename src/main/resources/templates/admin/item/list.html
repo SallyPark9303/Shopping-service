@@ -21,10 +21,9 @@
         <tr th:each="item, itemStat : ${items}">
             <th th:text="${itemStat.count}"></th>
             <th th:text="${item.itemName}"></th>
-            <td th:text="${item.Price}"></td>
-            <td th:text="${item.CreateDate}"></td>
+            <td th:text="${item.price}"></td>
 
-            <td><button type="button" class="btn btn-outline-info"  th:onclick="|location.href='@{/admin/item/detail/{id}(id=${item.Id})}'|">상세 보기</button></td>
+            <td><button type="button" class="btn btn-outline-info"  th:onclick="|location.href='@{/admin/item/{id}/detail (id=${item.Id})}'|">상세 보기</button></td>
         </tr>
 
         </tbody>
