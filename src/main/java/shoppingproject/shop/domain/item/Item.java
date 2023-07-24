@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 import org.springframework.web.multipart.MultipartFile;
+import shoppingproject.shop.domain.Cart;
 import shoppingproject.shop.domain.common.UploadFile;
 
 import java.util.ArrayList;
@@ -38,12 +39,17 @@ public class Item {
  private List<Size> sizeList= new ArrayList<>();
  @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
  private List<Color> colorList = new ArrayList<>();
- @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+ @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
  @JoinColumn(name="category_id")
  private Category category;
 
+ @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
+ private List<Cart> cartList = new ArrayList<>();
+ @Transient
+ private Long category_id;
+
  // 생성 메서드 //
- public static Item createItem(Item item,List<UploadFile> files){
+ public static Item createItem(Item item,List<UploadFile> files,Category cate){
   Item newItem;
   newItem = item;
   //상세설명 줄바꿈 처리
@@ -61,6 +67,9 @@ public class Item {
    Size co  = new Size(item,s);
    newSize.add(co);
   }
+  // 카테고리
+  newItem.setCategory(cate);
+
   newItem.setColorList(newColor);
   newItem.setSizeList(newSize);
 
@@ -87,7 +96,37 @@ public class Item {
   }
   newItem.setColors(newColor);
   newItem.setSizes(newSize);
+
  return newItem;
+
+ }
+
+ public static Item getDetailItem(Item item,List<UploadFile> files,Category cate){
+  Item newItem;
+  newItem = item;
+  //상세설명 줄바꿈 처리
+  item.setDescription(item.getDescription().replace("<br>","\r\n"));
+
+  List<String> newColor=new ArrayList<>();
+  List<String> newSize=new ArrayList<>();
+  for(Color s : item.getColorList()){
+   newColor.add(s.getName());
+  }
+  for(Size s : item.getSizeList()){
+   newSize.add(s.getName());
+  }
+  newItem.setColors(newColor);
+  newItem.setSizes(newSize);
+  newItem.setCategory(cate);
+  //파일
+  List<UploadFile> newFiles = UploadFile.createFile(files, item);
+  newItem.setUploadFiles(newFiles);
+  // 기존 파일 저장
+  for(UploadFile file :item.getUploadFiles()){
+   newItem.getUploadFiles().add(file);
+  }
+
+  return newItem;
 
  }
 }

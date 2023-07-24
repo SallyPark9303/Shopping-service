@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import shoppingproject.shop.domain.Member;
-import shoppingproject.shop.domain.cart.Cart;
-import shoppingproject.shop.domain.cart.CartRepository;
+import shoppingproject.shop.domain.Cart;
+import shoppingproject.shop.domain.common.UploadFile;
+import shoppingproject.shop.domain.item.Category;
+import shoppingproject.shop.domain.item.Item;
+import shoppingproject.shop.repository.CartRepository;
 import shoppingproject.shop.repository.ItemRepository;
+import shoppingproject.shop.service.CartService;
 import shoppingproject.shop.web.CommonConst;
 
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.List;
 public class CartController {
 
     private final CartRepository cartRepository;
+    private final CartService cartService;
     private final ItemRepository itemRepository;
     @ModelAttribute("member")
     public String checkMember(HttpServletRequest request, Model model){
@@ -40,8 +45,13 @@ public class CartController {
 
     @GetMapping("/add")
     public String add(@RequestParam("itemId") long id, Model model){
+        // 상품 정보 찾기
+        Item findOne = itemRepository.findOne(id);
+        // cart 객체 생성
+        Cart.createCart(findOne,(Member)model.getAttribute("member"));
+        // cart 정보를 넘긴다
         model.addAttribute("items",itemRepository.findAll());
-        model.addAttribute("cartNum",2);
+        //model.addAttribute("cartNum",2);
         return "/item/list";
 
     }

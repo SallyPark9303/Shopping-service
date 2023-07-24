@@ -1,5 +1,6 @@
 package shoppingproject.shop.web.item;
 
+import jakarta.persistence.PreUpdate;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,9 @@ public class ItemController {
         return "/item/detail";
 
     }
-    @GetMapping("/listPage")
-    public String listPage(Model model){
-        List<Item> items = itemRepository.findAll();
+    @GetMapping("/listPage/{no}")
+    public String listPage(@PathVariable("no") long no, Model model){
+        List<Item> items = itemRepository.findByCategory(no);
         model.addAttribute("items",items);
         return "/item/list";
     }

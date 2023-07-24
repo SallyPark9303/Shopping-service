@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shoppingproject.shop.domain.common.FileUtils;
 import shoppingproject.shop.domain.common.UploadFile;
+import shoppingproject.shop.domain.item.Category;
 import shoppingproject.shop.domain.item.Color;
 import shoppingproject.shop.domain.item.Item;
 import shoppingproject.shop.domain.item.Size;
@@ -52,7 +53,10 @@ public class ItemAdminController {
         return sizes;
     }
 
-
+    @ModelAttribute("categories")
+    public List<Category> categories() {
+        return itemRepository.findAllCategories();
+    }
     //목록 폼
     @GetMapping("/list")
     public String list(Model model ){
@@ -75,7 +79,10 @@ public class ItemAdminController {
             redirectAttributes, Model model) throws IOException {
 
         List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
-        Item itm = Item.createItem(form, storeImageFiles);
+        //카테고리 찾기
+        Category findone = itemRepository.findCategoryOne(form.getCategory_id());
+
+        Item itm = Item.createItem(form, storeImageFiles,findone);
         itemService.saveItem(itm);
         return "redirect:/admin/item/list";
     }
@@ -96,18 +103,22 @@ public class ItemAdminController {
     public String editForm(@PathVariable Long id,Model model){
         Item item = itemRepository.findOne(id);
         Item.getDetailItem(item);
-        log.info("테스트 colors ={}",item.getColors());
-        log.info("테스트 결과값1 ={}",item.getColors().equals("blue"));
-        log.info("테스트 결과값2 ={}",item.getColors().contains("blue"));
-        log.info("테스트 결과값2 ={}",item.getColors().stream().equals("blue"));
+
         model.addAttribute("item",item);
         return "/admin/item/edit";
     }
 
-    //상세 로직
+    //수정 로직
     @PostMapping("/edit")
-    public String edit(@ModelAttribute Item item){
-      //  itemRepository.update(item.getId(),item);
+    public String edit(@ModelAttribute Item form) throws IOException {
+        //카테고리 찾기
+
+        List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
+        //카테고리 찾기
+        Category findone = itemRepository.findCategoryOne(form.getCategory_id());
+
+        Item itm = Item.getDetailItem(form, storeImageFiles,findone);
+        itemService.saveItem(itm);
         return "redirect:/admin/item/list";
     }
 

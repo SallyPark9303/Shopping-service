@@ -21,6 +21,10 @@
                                     <label for="Description" th:text="#{item.description}"></label>
                                     <div  class=" mt-1" id="Description"  th:text="*{description}"></div>
                                 </div>
+                            <div class="form-group col-md-12 mb-3">
+                                <label for="cate" th:text="#{category}"></label>
+                                <div  class=" mt-1" id="cate"  th:text="*{category.name}"></div>
+                            </div>
                             <div class="form-group col-md-6 mb-3">
                                 <label for="Description" >상품 색상</label>
                                 <div  class="form-check form-check-inline">

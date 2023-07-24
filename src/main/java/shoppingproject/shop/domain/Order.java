@@ -25,6 +25,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
+    @ManyToOne
+    @JoinColumn(name="cart_id")
+    private Cart cart;
     private String orderedPhone;
     private String receivedPhone;
     private String receiver;
@@ -36,6 +39,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL) // orderItem 을 함께 저장해준다.
     private List<OrderItem> orderItem = new ArrayList<>();
+
 
     @Builder.Default
     private LocalDateTime orderDate = LocalDateTime.now(); // 주문시간

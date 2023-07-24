@@ -45,5 +45,9 @@ public class Member {
     @OneToMany
     private List<Order> orders = new ArrayList<>();
 
+    @OneToOne
+    private Cart carts;
+
+
 
 }

@@ -9,17 +9,23 @@
 <div class="d-flex justify-content-center fs-2 my-5">상품 등록</div>
 <form th:action="@{/admin/item/save}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px" enctype="multipart/form-data">
     <div class="row">
-        <div class="form-group col-md-6 mb-3">
+        <div class="form-group col-md-5 mb-3">
             <label for="ItemName"   th:text="#{item.name}">Name</label>
             <input type="text" class="form-control mt-1" id="ItemName"  th:field="*{itemName}"
                    th:errorclass="field-error" placeholder="상품명">
             <div class="field-error" th:errors="*{itemName}"></div>
         </div>
-        <div class="form-group col-md-6 mb-3">
-            <label for="Price" th:text="#{item.price}"></label>
-            <input type="text" class="form-control mt-1 password" id="Price"  th:field="*{price}"
+        <div class="form-group col-md-3 mb-3">
+            <label for="price" th:text="#{item.price}"></label>
+            <input type="text" class="form-control mt-1" id="price"  th:field="*{price}"
                    th:errorclass="field-error" placeholder="가격">
             <div class="field-error" th:errors="*{price}"></div>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label for="cate" th:text="#{category}"></label>
+            <select class="form-select" id="cate"  th:field="*{category_id}">
+                <option th:each="cate : ${categories}" th:value="${cate.id}" th:if="${cate.parent != null}"  th:text="${cate.name}">FAST</option>
+            </select>
         </div>
         <div class="form-group col-md-12 mb-3">
             <label for="Description" th:text="#{item.description}"></label>
@@ -49,7 +55,7 @@
 
         </div>
         <div class="form-group col-md-12 mb-3">
-                <div id="image_container">
+                <div id="image_container" class="d-flex">
                     <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="100"/>
                 </div>
 
@@ -78,43 +84,17 @@
             img.setAttribute("src", event.target.result);
             div.appendChild(img);
             console.log("reader",reader);
-             var button = document.createElement('input'); // 업로드 삭제 버튼생성
-                button.type = 'button';
-                button.value = '삭제';
-                button.className = 'btn';
-                button.onclick = function() {
+              var span = document.createElement('span'); // 업로드 삭제 버튼생성
+              span.className = 'badge rounded-pill text-bg-danger img-remove-btn ';
+              span.innerText = "삭제";
+              span.onclick = function() {
                 document.querySelector("div#image_container").removeChild(div); // 해당 자식클래스를 삭제한다.
-
                 };
-                 div.appendChild(button);
+                 div.appendChild(span);
           };
-          console.log(image);
           reader.readAsDataURL(image);
         }
       }
-
-
-    function loadFile(input) {
-    var file = input.files[0];	//선택된 파일 가져오기
-
-    //미리 만들어 놓은 div에 text(파일 이름) 추가
-    var name = document.getElementById('displayImgName');
-    name.textContent = file.name;
-
-  	//새로운 이미지 div 추가
-    var newImage = document.createElement("displayImg");
-    newImage.setAttribute("class", 'img');
-
-    //이미지 source 가져오기
-    newImage.src = URL.createObjectURL(file);
-
-    newImage.style.width = "70%";
-    newImage.style.height = "70%";
-
-    //이미지를 image-show div에 추가
-    var container = document.getElementById('image-show');
-    container.appendChild(newImage);
-};
 
 </script>
 </body>

@@ -4,9 +4,9 @@
     <head th:fragment="header">
         <meta charset="UTF-8">
         <link th:href="@{/css/bootstrap.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
+        <link th:href="@{/css/bootstrap-grid.min.css}"  href="../css/bootstrap.min.css" rel="stylesheet">
         <link th:href="@{/css/templatemo.min.css}"  rel="stylesheet">
-        <script  th:src="@{/js/bootstrap.min.js}" />
-        <link   href="../css/custom.css" rel="stylesheet">
+        <link th:href="@{/css/custom.css}"  rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
@@ -30,8 +30,8 @@
                                 남성 의류
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.shirt}" th:href="@{/item/listPage}">상의</a></li>
-                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.pants}">하의 </a></li>
+                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.shirt}" th:href="@{/item/listPage/3}">상의</a></li>
+                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.pants}" th:href="@{/item/listPage/{no}(no = 4)}">하의 </a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -39,8 +39,8 @@
                                 여성 의류
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"  th:text="#{category.woman.shirt}">상의</a></li>
-                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.pants}">하의</a></li>
+                                <li><a class="dropdown-item" href="#"  th:text="#{category.woman.shirt}" th:href="@{/item/listPage/{no}(no = 5)}">상의</a></li>
+                                <li><a class="dropdown-item" href="#"  th:text="#{category.man.pants}" th:href="@{/item/listPage/{no}(no = 6)}">하의</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">

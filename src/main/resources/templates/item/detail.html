@@ -11,81 +11,18 @@
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid"  th:src="|/admin/item/images/${item.imageFiles[0].getStoreFileName()}|" id="product-detail">
+                        <img class="card-img img-fluid"  th:src="|/admin/item/images/${item.uploadFiles[0].storeFileName}|" id="product-detail">
                     </div>
-                    <div class="row">
-                        <!--Start Controls-->
-                        <div class="col-1 align-self-center">
-                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
-                                <i class="text-dark fas fa-chevron-left"></i>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-                        <!--Start Carousel Wrapper-->
-                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item pointer-event" data-bs-ride="carousel">
-                            <!--Start Slides-->
-                            <div class="carousel-inner product-links-wap" role="listbox">
-
-                                <!--First slide-->
-                                <div class="carousel-item active">
-                                    <div class="row">
-                                        <div class="row">
-                                            <th:block th:each="file : ${item.imageFiles}">
-                                                <div class="col-4">
-                                                    <a href="#">
-                                                        <img class="card-img img-fluid" th:src="|/admin/item/images/${file.getStoreFileName()}|">
-                                                    </a>
-                                                </div>
-                                            </th:block>
-                                        </div>
+                            <div class="row">
+                                <th:block th:each="sfile : ${item.uploadFiles}">
+                                    <div class="col-4">
+                                        <a href="#">
+                                            <img class="card-img img-fluid" th:src="|/admin/item/images/${sfile.storeFileName}|">
+                                        </a>
                                     </div>
-                                </div>
-                                <!--/.First slide-->
-
-                                <!--Second slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="row">
-                                            <th:block th:each="file : ${item.imageFiles}">
-                                                <div class="col-4">
-                                                    <a href="#">
-                                                        <img class="card-img img-fluid" th:src="|/admin/item/images/${file.getStoreFileName()}|">
-                                                    </a>
-                                                </div>
-                                            </th:block>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Second slide-->
-
-                                <!--Third slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <th:block th:each="file : ${item.imageFiles}">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" th:src="|/admin/item/images/${file.getStoreFileName()}|">
-                                            </a>
-                                        </div>
-                                        </th:block>
-                                    </div>
-                                </div>
-                                <!--/.Third slide-->
+                                </th:block>
                             </div>
-                            <!--End Slides-->
-                        </div>
-                        <!--End Carousel Wrapper-->
-                        <!--Start Controls-->
-                        <div class="col-1 align-self-center">
-                            <a href="#multi-item-example" role="button" data-bs-slide="next">
-                                <i class="text-dark fas fa-chevron-right"></i>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                        <!--End Controls-->
                     </div>
-                </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">
                     <div class="card">
@@ -108,7 +45,7 @@
                                     <h6>Avaliable Color :</h6>
                                 </li>
                                 <li class="list-inline-item" th:each="color:${item.colorList}"  >
-                                    <p class="text-muted"><strong th:text="${color}"></strong></p>
+                                    <p class="badge text-bg-secondary p-2 me-2"><strong th:text="${color.name}"></strong></p>
                                 </li>
                             </ul>
 
@@ -118,7 +55,7 @@
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item">Size :
-                                                <input type="hidden" name="product-size" id="product-size"   th:text="${size}" value="S">
+                                                <span class="badge text-bg-light p-2 me-2"  th:each="size:${item.sizeList}"   th:text="${size.name}" />
                                             </li>
                                         </ul>
                                     </div>
@@ -132,10 +69,10 @@
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy" th:text="#{button.order}"></button>
                                     </div>
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard" th:text="#{button.cart}">Add To Cart</button>
                                     </div>
                                 </div>
                             </form>
