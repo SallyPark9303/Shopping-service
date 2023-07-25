@@ -34,7 +34,7 @@ public class Item {
  @Transient
  private List<String> sizes;
  @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
- private List<UploadFile> uploadFiles;
+ private List<UploadFile> uploadFiles = new ArrayList<>();
 @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
  private List<Size> sizeList= new ArrayList<>();
  @OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
@@ -47,6 +47,15 @@ public class Item {
  private List<Cart> cartList = new ArrayList<>();
  @Transient
  private Long category_id;
+ 
+ // 주문시 임시 저장 칼럼
+ @Transient
+ private String selectedColor;
+ @Transient
+ private String selectedSize;
+ @Transient
+ private int orderQuantity;
+
 
  // 생성 메서드 //
  public static Item createItem(Item item,List<UploadFile> files,Category cate){
@@ -83,8 +92,9 @@ public class Item {
  public static Item getDetailItem(Item item){
   Item newItem;
   newItem = item;
+  //newItem.setId(item.getId());
   //상세설명 줄바꿈 처리
-  item.setDescription(item.getDescription().replace("<br>","\r\n"));
+  newItem.setDescription(item.getDescription().replace("<br>","\r\n"));
 
   List<String> newColor=new ArrayList<>();
   List<String> newSize=new ArrayList<>();
@@ -104,6 +114,7 @@ public class Item {
  public static Item getDetailItem(Item item,List<UploadFile> files,Category cate){
   Item newItem;
   newItem = item;
+  newItem.setId(item.getId());
   //상세설명 줄바꿈 처리
   item.setDescription(item.getDescription().replace("<br>","\r\n"));
 
@@ -120,9 +131,9 @@ public class Item {
   newItem.setCategory(cate);
   //파일
   List<UploadFile> newFiles = UploadFile.createFile(files, item);
-  newItem.setUploadFiles(newFiles);
-  // 기존 파일 저장
-  for(UploadFile file :item.getUploadFiles()){
+  //newItem.setUploadFiles(newFiles);
+  // 새로운 파일 저장
+  for(UploadFile file :newFiles){
    newItem.getUploadFiles().add(file);
   }
 

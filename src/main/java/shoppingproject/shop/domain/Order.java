@@ -25,18 +25,15 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
-    @ManyToOne
-    @JoinColumn(name="cart_id")
-    private Cart cart;
-    private String orderedPhone;
-    private String receivedPhone;
-    private String receiver;
-    private String addr1;
-    private String addr2;
-    private String deliveryMessage;
+
+    private String email;
     private int totalItemPrice;
     private int deliveryPrice;
-
+    //== 배송정보==/
+    @Embedded
+    private RecipientInfo recipientInfo = new RecipientInfo();
+    @Embedded
+    private SenderInfo senderInfo = new SenderInfo();
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL) // orderItem 을 함께 저장해준다.
     private List<OrderItem> orderItem = new ArrayList<>();
 
@@ -44,9 +41,11 @@ public class Order {
     @Builder.Default
     private LocalDateTime orderDate = LocalDateTime.now(); // 주문시간
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus; // 주문 상태
+    @Builder.Default
+    private OrderStatus orderStatus = OrderStatus.ORDER; // 주문 상태
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus deliveryStatus; // 배송 상태
+    private DeliveryStatus deliveryStatus = DeliveryStatus.READY; // 배송 상태
     private int orderItemCnt;
 
 
@@ -74,10 +73,15 @@ public class Order {
     }
 
 
+
+
     // 생성 메서드//
-    public static Order createOrder(Member member, List<OrderItem> orderItems){
+    public static Order createOrder(Order nOrder, Member member, List<OrderItem> orderItems){
         Order order = new Order();
         order.setMember(member);
+        order.setRecipientInfo(nOrder.getRecipientInfo());
+        order.setSenderInfo(nOrder.getSenderInfo());
+        order.setOrderItemCnt(orderItems.size());
         int totalPrice =0;
         for(OrderItem orderItem : orderItems){
             order.addOrderItem(orderItem);

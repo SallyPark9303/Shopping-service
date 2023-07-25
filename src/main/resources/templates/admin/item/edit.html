@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <nav th:replace="~{fragment/adminHeader :: nav}"></nav>
     <div class="d-flex justify-content-center fs-2 my-5">상품 수정</div>
-    <form th:action="@{/admin/item/edit}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px"
+    <form th:action="@{/admin/item/{id}/edit (id=${item.id})}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px"
           enctype="multipart/form-data">
         <div class="row">
             <div class="form-group col-md-5 mb-3">

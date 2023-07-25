@@ -53,8 +53,8 @@
                 </ul>
                 <div class="d-flex">
                     <!--<button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/member/joinForm}'|"  th:text="#{login}">로그인</button>-->
-                    <div class="me-3" th:if="${member}" th:text="|${member.name} 님 반가워요 |">로그인 사용자 이름</div>
-                    <div class="d-flex" th:if="${member}">
+                    <div class="me-3" th:if="${session.member}" th:text="|${session.member.name} 님 반가워요 |">로그인 사용자 이름</div>
+                    <div class="d-flex" th:if="${session.member}">
                         <div class="nav-icon d-flex align-items-center text-decoration-none me-3"  th:onclick="|location.href='@{/member/editForm(id=${member.id})}'|">
                             <i class="bi bi-person-circle"></i>
                         </div>
@@ -66,9 +66,9 @@
                             <i class="bi bi-box-arrow-right"></i>
                         </div>
                     </div>
-                    <button type="button"  th:unless="${member}" class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login}'|"  th:text="#{login}">로그인</button>
-                    <button type="button"  th:unless="${member}" class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login/admin}'|">관리자 화면</button>
-                    <button type="button" th:unless="${member}" class="btn btn-outline-success" th:onclick="|location.href='@{/member/joinForm}'|" th:text="#{join}">회원가입</button>
+                    <button type="button"  th:unless="${session.member}" class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login}'|"  th:text="#{login}">로그인</button>
+                    <button type="button"  th:unless="${session.member}" class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login/admin}'|">관리자 화면</button>
+                    <button type="button" th:unless="${session.member}" class="btn btn-outline-success" th:onclick="|location.href='@{/member/joinForm}'|" th:text="#{join}">회원가입</button>
                 </div>
             </div>
         </div>

@@ -48,12 +48,14 @@ public class CartController {
         // 상품 정보 찾기
         Item findOne = itemRepository.findOne(id);
         // cart 객체 생성
-        Cart.createCart(findOne,(Member)model.getAttribute("member"));
+        //로그인안하면 session 값을 쿠키에 저장해서 비교...
+        Cart newCart = Cart.createCart(findOne, (Member) model.getAttribute("member"));
+        cartService.saveCart(newCart);
+
         // cart 정보를 넘긴다
         model.addAttribute("items",itemRepository.findAll());
         //model.addAttribute("cartNum",2);
         return "/item/list";
-
     }
 
     @GetMapping("/delete")

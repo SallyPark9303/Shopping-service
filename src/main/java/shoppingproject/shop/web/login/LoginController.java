@@ -58,8 +58,6 @@ public class LoginController {
         if(sUser.getUserType().equals(UserType.ADMIN)){
             return "/admin/main";
         }
-        log.info("test");
-
         return "/home";
     }
     @GetMapping("/admin")

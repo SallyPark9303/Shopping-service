@@ -25,20 +25,13 @@ public class OrderService {
      * 주문
      */
     @Transactional
-    public Long order(Long memberId, Long itemId, List<OrderItem> orderItems) {
+    public Long order(Order newOrder,Long memberId, List<OrderItem> orderItems) {
 
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
-       // Item item = itemRepository.findOne(itemId);
-       // List<OrderItem> orders = new ArrayList<>();
-        //주문상품 생성
-//        for(OrderItem order : orderItems){
-//            OrderItem orderItem = OrderItem.createOrderItem(item,item.getPrice(),order.getQuantity(),order.getColor(),order.getSize());
-//            orders.add(orderItem);
-//        }
 
         // 주문 생성
-        Order order = Order.createOrder(member, orderItems);
+        Order order = Order.createOrder(newOrder ,member, orderItems);
 
         //주문 저장
         orderRepository.save(order);
@@ -52,6 +45,8 @@ public class OrderService {
         Order order = orderRepository.findOne(orderId);
         order.cancel();
     }
+
+
 
 
 //    public List<Order> findAll(OrderSearch orderSearch){

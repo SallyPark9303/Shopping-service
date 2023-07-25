@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+</head>
+<body>
+<div class="container-fluid">
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <!-- 주문서 시작 -->
+    <div class="container">
+        <div id="order">
+            <div class="page-body">
+                <form name="form1" id="order_form" th:object="${test}"   method="post">
+                    <p>두번째화면</p>
+                    <input type="text" th:field="${test.testId}" th:text="${test.testId}"/>
+                </form>
+            </div><!-- .page-body -->
+        </div>
+    </div>
+
+    <!-- 주문서 종료 -->
+
+</div>
+<footer  th:replace="~{fragment/footer :: footer}">
+
+</footer>
+</body>
+</html>

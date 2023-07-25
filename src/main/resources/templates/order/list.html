@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragment/header :: header}">
+</head>
+<body>
+<div class="container-fluid">
+    <nav th:replace="~{fragment/header :: nav}"></nav>
+    <!-- 주문서 시작 -->
+    <div class="container">
+        <div id="order">
+            <div class="page-body">
+                <p>주문 목록</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 주문서 종료 -->
+
+</div>
+<footer  th:replace="~{fragment/footer :: footer}">
+
+</footer>
+</body>
+</html>

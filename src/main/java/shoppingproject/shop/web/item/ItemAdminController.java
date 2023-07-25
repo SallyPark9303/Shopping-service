@@ -103,22 +103,21 @@ public class ItemAdminController {
     public String editForm(@PathVariable Long id,Model model){
         Item item = itemRepository.findOne(id);
         Item.getDetailItem(item);
-
         model.addAttribute("item",item);
         return "/admin/item/edit";
     }
 
     //수정 로직
-    @PostMapping("/edit")
-    public String edit(@ModelAttribute Item form) throws IOException {
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable Long id,@ModelAttribute Item form) throws IOException {
         //카테고리 찾기
 
         List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
         //카테고리 찾기
-        Category findone = itemRepository.findCategoryOne(form.getCategory_id());
+        Category findone = itemRepository.findCategoryOne(form.getCategory().getId()); //준영속성 엔티티 jpa 에서 관리하는 엔티티
 
-        Item itm = Item.getDetailItem(form, storeImageFiles,findone);
-        itemService.saveItem(itm);
+       // Item itm = Item.getDetailItem(form, storeImageFiles,findone);
+        itemService.updateItem(form,storeImageFiles,findone);
         return "redirect:/admin/item/list";
     }
 
