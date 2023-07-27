@@ -83,9 +83,11 @@ public class Order {
         order.setSenderInfo(nOrder.getSenderInfo());
         order.setOrderItemCnt(orderItems.size());
         int totalPrice =0;
+        int totalItemPrice=0;
         for(OrderItem orderItem : orderItems){
             order.addOrderItem(orderItem);
-            totalPrice += orderItem.getTotalPrice();
+            totalItemPrice = orderItem.getOrderPrice() * orderItem.getQuantity();
+            totalPrice += totalItemPrice;
         }
         order.setOrderStatus(OrderStatus.ORDER);
         order.setOrderItemCnt(orderItems.size());
@@ -102,6 +104,9 @@ public class Order {
             throw new IllegalStateException("이미 배송완료된 상품입니다.");
         }
         this.setOrderStatus(OrderStatus.CANCEL); // 변경된 감지가 일어나서 바꾼 데이터 쿼리가 날라감.
+    }
+    public  void deliveryCompleted(){
+        this.setDeliveryStatus(DeliveryStatus.COMP);
     }
     
 

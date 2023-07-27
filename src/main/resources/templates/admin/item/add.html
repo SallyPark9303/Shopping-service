@@ -1,101 +1,105 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragment/adminHeader :: header}">
-    <title>상품 등록</title>
-</head>
-<body>
-<div class="container-fluid">
-    <nav th:replace="~{fragment/header :: nav}"></nav>
-<div class="d-flex justify-content-center fs-2 my-5">상품 등록</div>
-<form th:action="@{/admin/item/save}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px" enctype="multipart/form-data">
-    <div class="row">
-        <div class="form-group col-md-5 mb-3">
-            <label for="ItemName"   th:text="#{item.name}">Name</label>
-            <input type="text" class="form-control mt-1" id="ItemName"  th:field="*{itemName}"
-                   th:errorclass="field-error" placeholder="상품명">
-            <div class="field-error" th:errors="*{itemName}"></div>
-        </div>
-        <div class="form-group col-md-3 mb-3">
-            <label for="price" th:text="#{item.price}"></label>
-            <input type="text" class="form-control mt-1" id="price"  th:field="*{price}"
-                   th:errorclass="field-error" placeholder="가격">
-            <div class="field-error" th:errors="*{price}"></div>
-        </div>
-        <div class="form-group col-md-3 mb-3">
-            <label for="cate" th:text="#{category}"></label>
-            <select class="form-select" id="cate"  th:field="*{category_id}">
-                <option th:each="cate : ${categories}" th:value="${cate.id}" th:if="${cate.parent != null}"  th:text="${cate.name}">FAST</option>
-            </select>
-        </div>
-        <div class="form-group col-md-12 mb-3">
-            <label for="Description" th:text="#{item.description}"></label>
-            <textarea type="text" class="form-control mt-1 password" id="Description"  th:field="*{description}"
-                   th:errorclass="field-error" placeholder="상품 상세"/>
-            <div class="field-error" th:errors="*{description}"></div>
-        </div>
-        <div class="form-group col-md-6 mb-3">
-            <label for="Description" >상품 색상</label>
-            <div th:each="color : ${colors}" class="form-check form-check-inline">
-                <input type="checkbox" th:field="${item.colors}" th:value="${color.key}" class="form-check-input">
-                <label th:text="${color.value}" class="form-check-label"></label>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/_admin_layout.html}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="d-flex justify-content-center fs-2 my-5">상품 등록</div>
+    <form th:action="@{/admin/item/save}" method="post" class="col-md-9 m-auto" th:object="${item}" style="width:1000px"
+          enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-md-5 mb-3">
+                <label for="ItemName" th:text="#{item.name}">Name</label>
+                <input type="text" class="form-control mt-1" id="ItemName" th:field="*{itemName}"
+                       th:errorclass="field-error" placeholder="상품명">
+                <div class="field-error" th:errors="*{itemName}"></div>
             </div>
-        </div>
-        <div class="form-group col-md-6 mb-3">
-            <label for="Description" >상품 크기</label>
-            <div th:each="size : ${sizes}" class="form-check form-check-inline">
-                <input type="checkbox" th:field="${item.sizes}" th:value="${size.key}" class="form-check-input">
-                <label  th:text="${size.value}" class="form-check-label"></label>
+            <div class="form-group col-md-3 mb-3">
+                <label for="price" th:text="#{item.price}"></label>
+                <input type="text" class="form-control mt-1" id="price" th:field="*{price}"
+                       th:errorclass="field-error" placeholder="가격">
+                <div class="field-error" th:errors="*{price}"></div>
             </div>
-        </div>
-        <div class="form-group col-md-12 mb-3">
-            <label for="imageFiles">등록 이미지 파일</label>
-            <input type="file" class="form-control mt-1 password"  multiple="multiple"  id="imageFiles"  th:field="*{imageFiles}"
-                   th:errorclass="field-error" accept="image/*" onchange="setThumbnail(event)">
-            <div class="field-error" th:errors="*{imageFiles}"></div>
-
-        </div>
-        <div class="form-group col-md-12 mb-3">
-                <div id="image_container" class="d-flex">
-                    <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="100"/>
+            <div class="form-group col-md-3 mb-3">
+                <label for="cate" th:text="#{category}"></label>
+                <select class="form-select" id="cate" th:field="*{category_id}">
+                    <option th:each="cate : ${categories}" th:value="${cate.id}" th:if="${cate.parent != null}"
+                            th:text="${cate.name}">FAST
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-12 mb-3">
+                <label for="Description" th:text="#{item.description}"></label>
+                <textarea type="text" class="form-control mt-1 password" id="Description"
+                          th:field="*{description}"
+                          th:errorclass="field-error" placeholder="상품 상세"/>
+                <div class="field-error" th:errors="*{description}"></div>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="Description">상품 색상</label>
+                <div th:each="color : ${colors}" class="form-check form-check-inline">
+                    <input type="checkbox" th:field="${item.colors}" th:value="${color.key}" class="form-check-input">
+                    <label th:text="${color.value}" class="form-check-label"></label>
                 </div>
-
-
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="Description">상품 크기</label>
+                <div th:each="size : ${sizes}" class="form-check form-check-inline">
+                    <input type="checkbox" th:field="${item.sizes}" th:value="${size.key}" class="form-check-input">
+                    <label th:text="${size.value}" class="form-check-label"></label>
+                </div>
+            </div>
+            <div class="form-group col-md-12 mb-3">
+                <label for="imageFiles">배너 설정</label>
+                <input type="checkbox" th:field="${item.isBanner}" class="form-check-input">
+            </div>
+            <div class="form-group col-md-12 mb-3">
+                <label for="imageFiles">등록 이미지 파일</label>
+                <input type="file" class="form-control mt-1 password" multiple="multiple" id="imageFiles"
+                       th:field="*{imageFiles}"
+                       th:errorclass="field-error" accept="image/*" th:onchange="'javascript:setThumbnail(event)'">
+                <div class="field-error" th:errors="*{imageFiles}"></div>
+            </div>
+            <div class="form-group col-md-12 mb-3">
+                <div id="image_container" class="d-flex my-3">
+                    <img th:each="imageFile : ${item.imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|"
+                         width="100"/>
+                </div>
+            </div>
+            <div class="d-flex justify-contents-right">
+                <button type="submit" class="btn btn-primary me-3" style="width:100px"
+                        th:text="#{button.save}"></button>
+                <button type="button" class="btn btn-secondary" style="width:100px" th:text="#{button.cancel}"
+                        th:onclick="|location.href='@{/admin/item/list/1}'|"></button>
+            </div>
         </div>
-        <div class="d-flex justify-contents-right">
-            <button type="submit" class="btn btn-primary me-3" style="width:100px" th:text="#{button.save}"></button>
-            <button type="button" class="btn btn-secondary"  style="width:100px" th:text="#{button.cancel}"  th:onclick="|location.href='@{/admin/item/list}'|"></button>
-        </div>
-    </div>
-</form>
+        <script th:inline="javascript">
+            // 등록이미지 미리보기
+
+            function setThumbnail(event) {
+                for (var image of event.target.files) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        var div = document.createElement("div");
+                        div.setAttribute("class", "thumbnail-list");
+                        document.querySelector("div#image_container").appendChild(div); // 썸네일감싸는 div
+                        var img = document.createElement("img");  // 화면에 보일 썸네일
+                        img.setAttribute("class", 'thumbnail');
+                        img.setAttribute("src", event.target.result);
+                        div.appendChild(img);
+                        var span = document.createElement('span'); // 업로드 삭제 버튼생성
+                        span.className = 'badge rounded-pill text-bg-danger img-remove-btn ';
+                        span.innerText = "삭제";
+                        span.onclick = function () {
+                            document.querySelector("div#image_container").removeChild(div); // 해당 자식클래스를 삭제한다.
+                        };
+
+                        div.appendChild(span);
+                    };
+                    reader.readAsDataURL(image);
+                }
+            }
+
+        </script>
+    </form>
 </div>
-<script  th:inline="javascript">
-    // 등록이미지 미리보기
-
-      function setThumbnail(event) {
-        for (var image of event.target.files) {
-          var reader = new FileReader();
-
-          reader.onload = function(event) {
-          var div = document.createElement("div");
-          div.setAttribute("class","thumbnail-list");
-           document.querySelector("div#image_container").appendChild(div); // 썸네일감싸는 div
-            var img = document.createElement("img");  // 화면에 보일 썸네일
-              img.setAttribute("class", 'thumbnail');
-            img.setAttribute("src", event.target.result);
-            div.appendChild(img);
-            console.log("reader",reader);
-              var span = document.createElement('span'); // 업로드 삭제 버튼생성
-              span.className = 'badge rounded-pill text-bg-danger img-remove-btn ';
-              span.innerText = "삭제";
-              span.onclick = function() {
-                document.querySelector("div#image_container").removeChild(div); // 해당 자식클래스를 삭제한다.
-                };
-                 div.appendChild(span);
-          };
-          reader.readAsDataURL(image);
-        }
-      }
-
-</script>
-</body>
-</html>

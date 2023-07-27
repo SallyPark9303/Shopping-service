@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragment/header :: header}">
-</head>
-<body>
-<div class="container-fluid">
-    <nav th:replace="~{fragment/header :: nav}"></nav>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/_layout.html}">
+<div  layout:fragment="content" class="container-fluid">
     <!-- 주문서 시작 -->
     <div class="container">
         <div id="order">
@@ -85,21 +82,21 @@
                                 <tr>
                                     <th scope="row"><div class="txt-l">이름</div></th>
                                     <td>
-                                        <input type="text" class="form-control" th:field="${member.name}"th:text="${member.name}"/>
+                                        <input type="text" class="form-control" th:readonly="true" th:field="${member.name}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><div class="txt-l">이메일</div></th>
                                     <td>
-                                        <input type="text" class="form-control" maxlength="20"  th:field="${member.email}" th:text="${order.email}">
+                                        <input type="text" class="form-control" maxlength="20"  th:field="${order.email}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><div class="txt-l">연락처</div></th>
                                     <td>
-                                        <input type="text" class="form-control contact-input" th:field="${order.senderInfo.phone1}"  th:text="${order.senderInfo.phone1}" >-
-                                        <input type="text"   class="form-control contact-input" th:field="${order.senderInfo.phone2}" >-
-                                        <input type="text"  class="form-control contact-input" th:field="${order.senderInfo.phone3}">
+                                        <input type="text" class= "form-control contact-input"  th:id="sPhone1" th:field="${order.senderInfo.phone1}" >-
+                                        <input type="text"   class="form-control contact-input" th:id="sPhone2" th:field="${order.senderInfo.phone2}" >-
+                                        <input type="text"  class="form-control contact-input"  th:id="sPhone3" th:field="${order.senderInfo.phone3}">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -107,7 +104,8 @@
                         </div><!-- .tbl-order -->
 
                         <h3 class="m-3">배송 정보</h3>
-                        <label>　        <input type="checkbox" name="same" id="same" onclick="copydata()"> 위 정보와 같음</label>
+                        <label>
+                            <input type="checkbox" name="same" id="same"> 위 정보와 같음</label>
                         <div class="tbl-order">
                             <table>
                                 <caption>배송 정보 입력</caption>
@@ -124,29 +122,25 @@
                                         <input type="text" name="receiver" id="receiver" class="form-control" th:field="${order.recipientInfo.recipientName}"></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row"><div class="txt-l">연락처 1</div></th>
+                                    <th scope="row"><div class="txt-l">연락처</div></th>
                                     <td>
-                                        <input type="text" th:field="${order.recipientInfo.rphone1}"   class="form-control contact-input"> -
-                                        <input type="text" th:field="${order.recipientInfo.rphone2}" class="form-control contact-input" >
-                                        -
-                                        <input type="text"  th:field="${order.recipientInfo.rphone3}"  class="form-control contact-input"> </td>
-                                   </tr>
-                                <tr>
-                                    <th scope="row"><div class="txt-l">배송지 선택</div></th>
-                                    <td colspan="3">
-                                        &nbsp;&nbsp;<input type="radio" value="A" name="place">최근 배송지
-                                        &nbsp;&nbsp;<input type="radio" value="B" name="place" >신규 배송지
+                                        <input type="text"  class="form-control contact-input" th:id="rphone1" th:field="${order.recipientInfo.rphone1}"> -
+                                        <input type="text"  class="form-control contact-input" th:id="rphone2" th:field="${order.recipientInfo.rphone2}"> -
+                                        <input type="text"  class="form-control contact-input" th:id="rphone3" th:field="${order.recipientInfo.rphone3}">
                                     </td>
-                                </tr>
+                                   </tr>
                                 <tr>
                                     <th scope="row"><div class="txt-l">주소</div></th>
                                     <td colspan="3">
-                                        <input name="post1" id="post1" size="6" class="form-control d-inline w-80px" onclick="this.blur();post();">
-                                        <button type="button"  class="btn btn-outline-secondary me-3" th:onclick="|location.href='@{/login/admin}'|" th:text="#{button.post-num}">우편 번호</button>
+                                        <input name="post1" id="zipCode" th:readonly="true" class="form-control d-inline w-80px">
+                                        <a  class="btn btn-outline-secondary me-3"   th:href="'javascript:execDaumPostcode()'" th:text="#{button.post-num}"/>우편 번호
                                         <div class="mt-10">
-                                            <input type="text"  th:field="${order.recipientInfo.raddr1}"  size="50" class="form-control"/>
-                                            <input type="text" th:field="${order.recipientInfo.raddr2}" size="50" class="form-control"/>
-                                            <input type="number" th:field="${order.totalItemPrice}" class="form-control"/>
+                                            <div class="d-flex">
+                                                <input type="text"  th:field="${order.recipientInfo.raddr1}" th:readonly="true" th:id="raddr1" size="50" class="form-control"/><span class="me-2">(로도명 주소)</span>
+                                            </div>
+                                            <div class="d-flex">
+                                                <input type="text" th:field="${order.recipientInfo.raddr2}"  th:id="raddr2" size="50" class="form-control"/><span class="me-2">(나머지 주소)</span>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -164,29 +158,6 @@
                                 </tbody>
                             </table>
                         </div><!-- .tbl-order -->
-
-                        <label class="chk-label">        <input type="checkbox" name="modify_address"  id="modify_address" value="Y"> 해당 배송지 정보를 나의 회원정보로 등록합니다.</label>
-                        <!-- //if_not_is_present -->
-                        <div class="tbl-order tot-order z-index1">
-                            <table>
-                                <caption></caption>
-                                <colgroup>
-                                    <col style="width: 150px">
-                                    <col>
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>최종 결제금액</th>
-                                    <td>
-                                        <strong class="price"><em><span id="block_unit_dollar" style="display:none">$</span> <span id="op_total_price" th:text="${totalPrice}">66,736</span></em> <span id="block_unit_won">원</span></strong> &nbsp;
-                                        <span id="block_all_expect_reserve">                                                        (적립예정: <span id="block_expect_reserve" data-original-reserve="1340" coupon-reserve="0">1,340</span>원)
-                                                        <div class="reserve-msg">(적립 예정금액과 최종 적립금액은 상이할 수 있습니다. 주문 완료 시 지급되는 적립금을 확인해주시기 바랍니다.)</div>
-                                                    </span>                                                                                            </td>
-                                </tr>
-
-                                </thead></table>
-                        </div><!-- .tbl-pay -->
-
                         <div class="btn-order-ctrl">
                             <div class="py-3 text-center">
                                 <button type="submit"  class="btn btn-outline-warning me-3" th:text="#{button.order}">주문</button>
@@ -198,14 +169,66 @@
                 </form>
             </div><!-- .page-body -->
         </div>
-
     </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
 
-    <!-- 주문서 종료 -->
+        let sameBtn = document.querySelector("#same");
+        let memName = document.querySelector("#name");
+        let memPhone1 = document.querySelector("#sPhone1");
+        let memPhone2 = document.querySelector("#sPhone2");
+        let memPhone3 = document.querySelector("#sPhone3");
+        let receiverName = document.querySelector("#receiver");
+        let rPhone1 = document.querySelector("#rphone1");
+        let rPhone2 = document.querySelector("#rphone2");
+        let rPhone3 = document.querySelector("#rphone3");
+
+        sameBtn.onclick = function(){
+            console.log("벨류 : ",sameBtn.checked);
+            if(sameBtn.checked){
+                receiverName.value = memName.value;
+                receiverName.textContent = memName.value;
+
+                rPhone1.value = memPhone1.value;
+                rPhone1.textContent = memPhone1.value;
+                rPhone2.value = memPhone2.value;
+                rPhone2.textContent = memPhone2.value;
+                rPhone3.value = memPhone3.value;
+                rPhone3.textContent = memPhone3.value;
+
+            }else{
+                receiverName.value = '';
+                receiverName.textContent = '';
+
+                rPhone1.value = '';
+                rPhone1.textContent = '';
+                rPhone2.value = '';
+                rPhone2.textContent = '';
+                rPhone3.value = '';
+                rPhone3.textContent = '';
+
+            }
+        }
+
+        function execDaumPostcode(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    console.log("data",data);
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                 //   alert("다음 주소 api 호출");
+                    var roadAddr = data.roadAddress;
+                    document.getElementById('zipCode').value = data.zonecode;
+                    document.getElementById("raddr1").value = roadAddr;
+                    //document.getElementById("raddr2").value = data.jibunAddress;
+                }
+            }).open();
+
+        }
+
+
+
+    </script>
 
 </div>
-<footer  th:replace="~{fragment/footer :: footer}">
-
-</footer>
-</body>
 </html>

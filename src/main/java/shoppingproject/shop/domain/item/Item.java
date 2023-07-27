@@ -56,6 +56,8 @@ public class Item {
  @Transient
  private int orderQuantity;
 
+ private boolean IsBanner = false;
+
 
  // 생성 메서드 //
  public static Item createItem(Item item,List<UploadFile> files,Category cate){

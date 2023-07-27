@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragment/header :: header}">
-    <meta charset="UTF-8">
-    <title>상세</title>
-</head>
-<body>
-<div class="container py-5">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/_layout.html}">
+<div  layout:fragment="content" class="container-fluid">
     <div class="row py-5 m-auto">
         <div class="text-center p-3">
             <h2 class="m-auto"  th:text="|#{label.mem.detail(${mem.name})} 수정|" ></h2>
@@ -41,7 +37,7 @@
 
             <div class="mb-3">
                 <label th:text="#{mem.memtype}"></label>
-                <div class="d-flex">
+                <div class="d-flex my-3">
                     <th:block th:each="gen,stat : ${gender}">
                         <div class="form-check me-3">
                             <input class="form-check-input" type="radio" name="gender" th:field="*{gender}"  th:value="${gen}" th:if="${gen eq mem.gender}" >
@@ -54,7 +50,7 @@
             </div>
             <div class="mb-3">
                 <label th:text="#{mem.memtype}"></label>
-                <div class="d-flex">
+                <div class="d-flex my-3">
                     <th:block th:each="type,stat : ${userTypes}">
                         <div class="form-check me-3">
                             <input class="form-check-input" type="radio" name="userType" th:field="*{userType}"  th:value="${type}" th:if="${type eq mem.userType}" >
@@ -75,5 +71,3 @@
         </form>
     </div>
 </div>
-</body>
-</html>

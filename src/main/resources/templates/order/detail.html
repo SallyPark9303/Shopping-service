@@ -1,0 +1,156 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/_layout.html}">
+<div  layout:fragment="content" class="container-fluid">
+    <!-- 주문서 시작 -->
+    <div class="container">
+        <div id="order">
+            <div class="page-body">
+                <form th:object="${order}" method="post">
+                    <fieldset>
+                        <legend class="text-center fw-bold py-5" style="border-bottom:2px solid;">주문서</legend>
+
+                        <!--h3>주문리스트</h3-->
+                        <div class="tbl-order" style="border-top:0; border-bottom:1px solid;">
+                            <table>
+                                <colgroup>
+                                    <col style="width: 200px">
+                                    <col style="width: 400px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <div class="tb-center"></div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="tb-center">상품명</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="tb-center">수량</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="tb-center">색상</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="tb-center">사이즈</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="tb-center">가격</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="orderitem : ${orderItems}">
+                                <tr class="nbg">
+                                    <td>
+                                        <div class="tb-center">
+                                            <div class="thumb">
+                                                <a href="/shop/shopdetail.html?branduid=2063559"><img
+                                                        style="width:100px"
+                                                        src="//cdn1-aka.makeshop.co.kr/shopimages/xexymix/0330040002523.jpg"
+                                                        alt="상품 섬네일" title="상품 섬네일"></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-left">
+                                            <p style="font-size:11px" th:text="${orderitem.item.itemName}">조거팬츠 1+1</p>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center" th:value="${orderitem.quantity}"
+                                             th:text="${orderitem.quantity}">1개
+                                        </div>
+                                        <input hidden="true" th:value="${orderitem.quantity}"/>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center" th:text="${orderitem.color}">680</div>
+                                        <input hidden="true" th:value="${orderitem.color}"/>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center" th:text="${orderitem.size}">680</div>
+                                        <input hidden="true" th:value="${orderitem.size}"/>
+                                    </td>
+                                    <td>
+                                        <div class="tb-center" th:text="${orderitem.orderPrice}">
+                                            68,800원
+                                        </div>
+                                        <input hidden="true" th:value="${orderitem.orderPrice}"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end">
+                                <div class="fw-bold w-100px">총 주문수량</div>
+                                <div th:text="${order.orderItemCnt}" class="me-2"></div>
+                                <div class="fw-bold w-100px">총 주문가격</div>
+                                <div th:text="${order.totalItemPrice}"></div>
+                            </div>
+                        </div><!-- .table-order -->
+
+                        <h4 class="m-3">주문자 정보</h4>
+                        <div class="d-flex my-3">
+                            <div class="text-1 w-110px">이름</div>
+                            <div>
+                                <span   th:text="${member.name}"/>
+                            </div>
+                        </div>
+                        <div class="d-flex my-3">
+                            <div class="text-1 w-110px">이메일</div>
+                            <div>
+                                <span th:text="${order.email}"/>
+                            </div>
+                        </div>
+                        <div class="d-flex my-3">
+                            <div class="txt-l w-110px">연락처</div>
+                            <div>
+                                <span th:text="${order.senderInfo.phone1}"/> -
+                                <span th:text="${order.senderInfo.phone2}"/> -
+                                <span th:text="${order.senderInfo.phone3}"/>
+                            </div>
+                        </div>
+                        <h4 class="m-3">배송 정보</h4>
+                        <div class="d-flex my-3">
+                            <div class="text-1 w-110px">이름</div>
+                            <div>
+                                <span th:text="${order.recipientInfo.recipientName}"/>
+                            </div>
+                        </div>
+                        <div class="d-flex my-3">
+                            <div class="text-1 w-110px">연락처</div>
+                            <div>
+                                <span th:text="${order.recipientInfo.rphone1}"/> -
+                                <span th:text="${order.recipientInfo.rphone2}"/> -
+                                <span th:text="${order.recipientInfo.rphone3}"/>
+                            </div>
+                        </div>
+                        <div class="d-flex my-3">
+                            <div class="text-1 w-110px">주소</div>
+                            <div>
+                                <span th:text="${order.recipientInfo.raddr1}"/>
+                                <span th:text="${order.recipientInfo.raddr2}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-1 w-110px">배송메세지</div>
+                                  <p  th:text="${order.recipientInfo.deliveryMsg}" class="form-control"/>
+                        </div>
+                        <div class="row">
+                            <div class="py-3 text-center">
+                                <button type="button" class="btn btn-outline-warning me-3"  th:onclick="|location.href='@{/order/edit/{id}(id=${order.id})}'|" th:text="#{button.edit}"/>
+                                <button type="button" class="btn btn-outline-secondary me-3"
+                                        th:onclick="|location.href='@{/order/list/1}'|" th:text="#{button.cancel}"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div><!-- .page-body -->
+        </div>
+    </div>
+    <!-- 주문서 종료 -->
+</div>
+</body>
+</html>

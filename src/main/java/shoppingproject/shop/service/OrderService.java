@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import shoppingproject.shop.domain.Member;
 import shoppingproject.shop.domain.Order;
 import shoppingproject.shop.domain.OrderItem;
+import shoppingproject.shop.domain.common.PagesUtils;
 import shoppingproject.shop.domain.item.Item;
 import shoppingproject.shop.repository.ItemRepository;
 import shoppingproject.shop.repository.MemberRepository;
 import shoppingproject.shop.repository.OrderRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,6 +45,33 @@ public class OrderService {
         Order order = orderRepository.findOne(orderId);
         order.cancel();
     }
+
+    @Transactional
+    public void deliveryComp(Long orderId){
+        Order order = orderRepository.findOne(orderId);
+        order.deliveryCompleted();
+    }
+
+    // 페이징 + 조회
+    public Map<String, Object> findById (long memId, int currentPageNo) {
+        List<Order> orders = null;
+        if(memId ==0) orders = orderRepository.findAll();
+        else orders = orderRepository.findByUserId(memId);
+
+        PagesUtils pageUtils = new PagesUtils(orders.size(), currentPageNo);
+        List<Order> ordersPaging =null;
+        if(memId == 0) ordersPaging =orderRepository.findAllPaging(pageUtils);
+        else ordersPaging = orderRepository.findByUserIdPaging(memId,pageUtils);
+
+        Map resultMap = new LinkedHashMap();
+        resultMap.put("orders",ordersPaging);
+        resultMap.put("pageUtil",pageUtils);
+        return resultMap;
+
+    }
+
+
+
 
 
 

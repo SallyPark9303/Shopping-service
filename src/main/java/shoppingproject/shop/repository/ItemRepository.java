@@ -3,6 +3,8 @@ package shoppingproject.shop.repository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import shoppingproject.shop.domain.Order;
+import shoppingproject.shop.domain.common.PagesUtils;
 import shoppingproject.shop.domain.item.Category;
 import shoppingproject.shop.domain.item.Item;
 
@@ -45,6 +47,14 @@ public class ItemRepository {
         return em.createQuery("select i from Category i", Category.class)
                 .getResultList();
     }
+
+    public List<Item> findAllPaging(PagesUtils pageUtils){
+        return em.createQuery("select i from Item i", Item.class)
+                .setFirstResult(pageUtils.getStartItemNum())
+                .setMaxResults(pageUtils.getDisplayPageNum()) //offset
+                .getResultList();
+    }
+
 
 
 

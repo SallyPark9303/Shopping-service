@@ -58,8 +58,11 @@ public class ItemAdminController {
         return itemRepository.findAllCategories();
     }
     //목록 폼
-    @GetMapping("/list")
-    public String list(Model model ){
+    @GetMapping("/list/{pageNum}")
+    public String list(@PathVariable("pageNum") int Num, Model model ){
+        Map<String, Object> result = itemService.findItems(Num);
+        model.addAttribute("results", result.get("results"));
+        model.addAttribute("pageUtil", result.get("pageUtil"));
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items",items);
         return "/admin/item/list";
@@ -81,7 +84,6 @@ public class ItemAdminController {
         List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
         //카테고리 찾기
         Category findone = itemRepository.findCategoryOne(form.getCategory_id());
-
         Item itm = Item.createItem(form, storeImageFiles,findone);
         itemService.saveItem(itm);
         return "redirect:/admin/item/list";
@@ -114,9 +116,7 @@ public class ItemAdminController {
 
         List<UploadFile> storeImageFiles = fileutils.storeFiles(form.getImageFiles());
         //카테고리 찾기
-        Category findone = itemRepository.findCategoryOne(form.getCategory().getId()); //준영속성 엔티티 jpa 에서 관리하는 엔티티
-
-       // Item itm = Item.getDetailItem(form, storeImageFiles,findone);
+        Category findone = itemRepository.findCategoryOne(form.getCategory().getId());
         itemService.updateItem(form,storeImageFiles,findone);
         return "redirect:/admin/item/list";
     }
@@ -131,7 +131,6 @@ public class ItemAdminController {
     @ResponseBody
     @GetMapping("/images/{filename}")
     public Resource downloadImage(@PathVariable String filename) throws  MalformedURLException {
-        log.info("filename ="+filename);
         return  new UrlResource("file:" + fileutils.getFullPath(filename));
     }
 

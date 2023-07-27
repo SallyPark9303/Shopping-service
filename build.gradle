@@ -27,13 +27,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
-//email
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-mail' //email
 	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' //dialect layout
+
 }
 
 tasks.named('test') {

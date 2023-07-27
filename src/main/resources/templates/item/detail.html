@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragment/header :: header}">
-</head>
-<body>
-<div class="container-fluid">
-    <nav th:replace="~{fragment/header :: nav}"></nav>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/_admin_layout.html}">
+<div layout:fragment="content">
 <!-- 상품 상세 시작 -->
     <section class="bg-light">
         <div class="container pb-5">
@@ -40,7 +38,6 @@
                                     <i class="fa fa-star text-secondary"></i>
                                     <span class="list-inline-item text-dark d-none">Rating 4.8 | 36 Comments</span>
                                 </p>
-
                                 <h6>Description:</h6>
                                 <p th:text="${item.description}"></p>
                                 <ul class="list-inline">
@@ -64,9 +61,16 @@
                                     </div>
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
-                                            <li class="list-inline-item" th:onclick="quantityCalc('-')"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                            <li class="list-inline-item"><input class="badge bg-secondary" type="number" id="var-value"  th:field="${item.orderQuantity}"th:text="${item.orderQuantity}" th:value="${item.orderQuantity}">1</input></li>
-                                            <li class="list-inline-item"  th:onclick="quantityCalc('+')"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                                <li class="list-inline-item"  id="btn-minus">
+                                                    <span class="btn btn-success">-</span>
+                                                </li>
+                                            <li class="list-inline-item">
+                                                <input class="" style="width: 40px; border:none; text-align: center;" type="text"
+                                                th:field="${item.orderQuantity}"/>
+                                            </li>
+                                            <li class="list-inline-item"  id="btn-plus">
+                                                <span class="btn btn-success">+</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -87,29 +91,24 @@
         </div>
     </section>
 <!-- 상품 상세 종료 -->
+    <script>
+
+        let quantity = document.querySelector("#orderQuantity");
+        let minusBtn = document.querySelector("#btn-minus");
+        let plusBtn = document.querySelector("#btn-plus");
+        minusBtn.onclick = function (){
+            if(parseInt(quantity.textContent) ==0) return;
+            quantity.value--;
+            quantity.textContent =(parseInt(quantity.textContent) -1).toString();
+        }
+        plusBtn.onclick = function (){
+            quantity.value++;
+            quantity.textContent = (parseInt(quantity.textContent)+ 1).toString();
+        }
+
+
+    </script>
 
 </div>
-<footer  th:replace="~{fragment/footer :: footer}">
 
-</footer>
-<script>
-   function quantityCalc(val) {
-	event.preventDefault();
-    console.log(val);
-   let quantity = document.querySelector("#var-value");
-
-   console.log(parseInt(quantity.textContent));
-   if(parseInt(quantity.textContent) ==0) return;
-
-    if(val =='-'){
-        quantity.value--;
-    quantity.textContent =(parseInt(quantity.textContent) -1).toString();
-    }else{
-        quantity.value++;
-   quantity.textContent = (parseInt(quantity.textContent)+ 1).toString();
-    }
-}
-
-</script>
-</body>
 </html>

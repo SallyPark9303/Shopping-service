@@ -3,6 +3,8 @@ package shoppingproject.shop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shoppingproject.shop.domain.Order;
+import shoppingproject.shop.domain.common.PagesUtils;
 import shoppingproject.shop.domain.common.UploadFile;
 import shoppingproject.shop.domain.item.Category;
 import shoppingproject.shop.domain.item.Color;
@@ -11,7 +13,9 @@ import shoppingproject.shop.domain.item.Size;
 import shoppingproject.shop.repository.ItemRepository;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,8 +58,16 @@ public class ItemService {
         }
     }
 
-    public List<Item> findItems(){
-        return itemRepository.findAll();
+    public Map<String, Object> findItems(int num){
+        List<Item> items = null;
+            items = itemRepository.findAll();
+
+        PagesUtils pageUtils = new PagesUtils(items.size(), num);
+        List<Item> itemsPaging  =itemRepository.findAllPaging(pageUtils);
+        Map resultMap = new LinkedHashMap();
+        resultMap.put("results",itemsPaging);
+        resultMap.put("pageUtil",pageUtils);
+        return resultMap;
     }
 
     public Item findOne(Long itemId){

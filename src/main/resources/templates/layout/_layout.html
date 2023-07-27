@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<meta charset="UTF-8">
+<header th:replace="~{/fragment/header.html :: header}"></header>
+<body>
+    <nav th:replace="~{/fragment/header.html:: nav}"></nav>
+    <div th:replace="~{/fragment/home_banner.html :: banner}"></div>
+    <th:block layout:fragment="content"></th:block>
+
+</body>
+<footer th:replace="~{/fragment/footer.html ::footer}"></footer>
+</html>

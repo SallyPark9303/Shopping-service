@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragment/header :: header}">
-</head>
-<body>
-<div class="container-fluid">
-    <nav th:replace="~{fragment/header :: nav}"></nav>
-    <!--배너-->
-   <div th:replace="~{fragment/home_banner :: banner}"></div>
-    <!--배너 끝-->
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout/_layout.html}">
+<th:block th:replace="~{/fragment/home_banner.html :: banner}"></th:block>
+<div layout:fragment="content" class="container-fluid">
     <!--베스트 상품 목록 시작-->
     <section class="bg-light">
         <div class="container py-5">
@@ -39,7 +36,8 @@
                             </ul>
                             <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
                             <p class="card-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia
+                                deserunt.
                             </p>
                             <p class="text-muted">Reviews (24)</p>
                         </div>
@@ -63,7 +61,8 @@
                             </ul>
                             <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
                             <p class="card-text">
-                                Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo ullamcorper.
+                                Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo
+                                ullamcorper.
                             </p>
                             <p class="text-muted">Reviews (48)</p>
                         </div>
@@ -85,9 +84,11 @@
                                 </li>
                                 <li class="text-muted text-right">$360.00</li>
                             </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides
+                                Shoes</a>
                             <p class="card-text">
-                                Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
+                                Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et
+                                scelerisque ipsum lobortis nec.
                             </p>
                             <p class="text-muted">Reviews (74)</p>
                         </div>
@@ -97,8 +98,5 @@
         </div>
     </section>
 </div>
-<footer  th:replace="~{fragment/footer :: footer}">
 
-</footer>
-</body>
 </html>

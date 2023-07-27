@@ -31,9 +31,16 @@ spring:
     level:
       org.hibernate.SQL: debug
       org.hibernate.orm.jdbc.bind: trace
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: classpath:/templates
+    suffix: .html
+
 # org.hibernate.type: trace #스프링 부트 2.x, hibernate5
 # org.hibernate.orm.jdbc.bind: trace #스프링 부트 3.x, hibernate6
 file:
   dir: C:/Users/ParkWonkyoung/Desktop/springmvc/file/
+
 
 

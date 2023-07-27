@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head  th:insert="~{fragment/adminHeader :: header}">
+<html     xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{/layout/_admin_layout.html}">
+<head  th:insert="~{/fragment/adminHeader.html :: header}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="container-fluid">
-<nav th:replace="~{fragment/adminHeader :: nav}"></nav>
-</body>
+
+<div layout:fragment="content" class="container-fluid">
+</div>
+
 </html>
