@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import shoppingproject.shop.domain.item.Item;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Order {
     @Column(name="order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 
@@ -94,6 +95,10 @@ public class Order {
         order.setTotalItemPrice(totalPrice);
         return order;
     }
+    
+    // 업데이트 //
+
+
 
     // 비지니스 로직//
     /**

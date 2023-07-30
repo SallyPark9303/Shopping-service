@@ -17,8 +17,8 @@ public class OrderItem {
     @GeneratedValue
     @Column(name = "order_item_id")
     private long id;
-    private int quantity;
     private int orderPrice;
+    private int quantity;
     private String color;
     private String size;
     @ManyToOne

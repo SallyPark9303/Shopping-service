@@ -43,21 +43,23 @@ public class LoginController {
         // 세션 만들기
         HttpSession session = request.getSession();
         //로그인 아이디로 로그인 정보를 세션에 저장
-        Member sUser = new Member();
+        Member member;
         try {
-            sUser =  memberService.getLogin(login.getLoginId(),login.getPassword());
+            member =  memberService.getLogin(login.getLoginId(),login.getPassword());
         } catch (Exception e) {
             model.addAttribute("loginError","로그인 정보가 일치하지 않습니다.");
             return "/member/login";
         }
-        Member loginMember = memberService.findOne(sUser.getId());
-        session.setAttribute(CommonConst.LOGIN_MEMBER, loginMember);
 
-        model.addAttribute("member",loginMember);
+        session.setAttribute(CommonConst.LOGIN_MEMBER, member);
+
+        model.addAttribute("member",member);
         // 어드민 유저는 관리화면으로 이동
-        if(sUser.getUserType().equals(UserType.ADMIN)){
+        if(member.getUserType().equals(UserType.ADMIN)){
             return "/admin/main";
         }
+        model.addAttribute("viewMode","home");
+        memberService.login(member);
         return "/home";
     }
     @GetMapping("/admin")

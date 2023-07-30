@@ -1,9 +1,13 @@
 package shoppingproject.shop.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import shoppingproject.shop.domain.Cart;
 import shoppingproject.shop.domain.Member;
+import shoppingproject.shop.domain.common.PagesUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +15,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
-
+    @PersistenceContext
     private final EntityManager em;
 
     public void save(Member member){
@@ -57,6 +61,8 @@ public class MemberRepository {
                 .getSingleResult();
         return Optional.ofNullable(member);
     }
+
+
 
     public void remove(Member member){
         em.remove(member);

@@ -1,9 +1,15 @@
 package shoppingproject.shop.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shoppingproject.shop.domain.Member;
+import shoppingproject.shop.domain.email.EmailUtil;
 import shoppingproject.shop.repository.MemberRepository;
 
 import java.util.List;
@@ -12,13 +18,25 @@ import java.util.Optional;
 @Service
 @Transactional// 모든 데이터변경,로직은 트랜잭션안에서 실행되어야하는 편이 좋음.
 @RequiredArgsConstructor
-public class MemberService {
+@Slf4j
+public class MemberService  {
     private final MemberRepository memberRepository;
-    public Long join(Member member) throws Exception{
+    private final EmailUtil emailUtil;
+    private final PasswordEncoder passwordEncoder;
 
-        validateDuplicateMember(member); // 중복 회원 검증
+
+    public Member join(Member member) throws Exception{
+
+        //validateDuplicateMember(member); // 중복 회원 검증
+        // 패스워드 인코딩
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
-        return  member.getId();
+        member.generateEmailCheckToken(); //이메일 인증 토큰 생성
+          emailUtil.sendEmail(member.getEmail(),"감성 쇼핑몰에서 인증번호 발송합니다.","/check-email-token?token=" +member.getEmailCheckToken()+
+                 "&email="+member.getEmail());
+          log.info("/check-email-token?token=" +member.getEmailCheckToken()+
+                  "&email="+member.getEmail());
+        return  member;
 
     }
 
@@ -57,7 +75,7 @@ public class MemberService {
 
       Optional<Member> loginUser = memberRepository.chkLogin(loginId,password);
       if(loginUser == null){
-          throw new IllegalStateException("로그인 정보가 일치 하지 않습니다.");
+          throw new loginCheckException("로그인 정보가 일치 하지 않습니다.");
       }
     }
 
@@ -66,7 +84,19 @@ public class MemberService {
 
     }
 
+    public void login(Member member) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                member.getLoginId(),
+                member.getPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
 
 
+    private class loginCheckException extends Exception {
+        public loginCheckException(String s) {
+
+        }
+    }
 }
 

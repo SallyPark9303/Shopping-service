@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/_admin_layout.html}">
+      layout:decorate="~{/layout/_layout.html}">
 <div layout:fragment="content">
 <!-- 상품 상세 시작 -->
     <section class="bg-light">
         <div class="container pb-5">
-
                 <form th:action="@{/order/addForm}" th:method="post">
+                    <input hidden="true" type="text" th:unless="${member == null}" th:field="${member.id}" th:id="memberId" />
+                    <input hidden="true" type="text" th:field="${item.id}" th:id="itemId" />
                     <div class="row">
                     <div class="col-lg-5 mt-5">
                         <div class="card mb-3">
@@ -28,8 +29,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h1 class="h2" th:text="${item.itemName}">Active Wear</h1>
-                                <input th:type="text" hidden="true"  th:value="${item.id}" th:field="${item.id}">Active Wear</input>
-                                <p class="h3 py-2" th:text="${item.price}">$25.00</p>
+                                <input th:type="text" hidden="true"  th:value="${item.id}" th:field="${item.id}"></input>
+                                <input class="h3 py-2 border-0" th:readonly="true" th:hidden="true" th:id="itemPrice" th:field="${item.price}" />
+                                <p th:text="|${item.price} 원|"></p>
                                 <p class="py-2">
                                     <i class="fa fa-star text-warning"></i>
                                     <i class="fa fa-star text-warning"></i>
@@ -38,11 +40,11 @@
                                     <i class="fa fa-star text-secondary"></i>
                                     <span class="list-inline-item text-dark d-none">Rating 4.8 | 36 Comments</span>
                                 </p>
-                                <h6>Description:</h6>
-                                <p th:text="${item.description}"></p>
+                                <h6>상세 설명</h6>
+                                <textarea class="border-0" th:text="${item.description}"/>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
-                                        <h6>Avaliable Color :</h6>
+                                        <h6>색상 :</h6>
                                     </li>
                                     <li th:each="color : ${item.colorList}" class="form-check form-check-inline">
                                         <input type="radio" th:field="${item.selectedColor}" th:value="${color.name}" class="form-check-input">
@@ -65,7 +67,9 @@
                                                     <span class="btn btn-success">-</span>
                                                 </li>
                                             <li class="list-inline-item">
-                                                <input class="" style="width: 40px; border:none; text-align: center;" type="text"
+                                                <input style="width: 40px; border:none; text-align: center;"
+                                                       type="text"
+                                                       th:id="orderQuantity"
                                                 th:field="${item.orderQuantity}"/>
                                             </li>
                                             <li class="list-inline-item"  id="btn-plus">
@@ -74,12 +78,15 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <th:block th:unless="${warning == null}">
+                                    <div th:text="${warning}"></div>
+                                </th:block>
                                 <div class="row pb-3">
                                     <div class="col d-grid">
                                         <button type="submit" class="btn btn-success btn-lg" th:text="#{button.order}" ></button>
                                     </div>
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard" th:text="#{button.cart}">Add To Cart</button>
+                                        <a type="button" class="btn btn-success btn-lg" th:onclick="'javascript:askToCart()'" th:text="#{button.cart}">Add To Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -93,20 +100,73 @@
 <!-- 상품 상세 종료 -->
     <script>
 
-        let quantity = document.querySelector("#orderQuantity");
+        let quantity =$("#orderQuantity");
         let minusBtn = document.querySelector("#btn-minus");
         let plusBtn = document.querySelector("#btn-plus");
+
+
         minusBtn.onclick = function (){
-            if(parseInt(quantity.textContent) ==0) return;
-            quantity.value--;
-            quantity.textContent =(parseInt(quantity.textContent) -1).toString();
+
+            if(quantity.text() =='') return;
+            quantity.text((parseInt(quantity.text()) -1).toString());
+            quantity.attr("value",quantity.text());
         }
         plusBtn.onclick = function (){
-            quantity.value++;
-            quantity.textContent = (parseInt(quantity.textContent)+ 1).toString();
+            console.log(quantity);
+            if(quantity.text() =='') {
+                quantity.text(0);
+            }
+            quantity.text((parseInt(quantity.text()) + 1).toString());
+            quantity.attr("value",quantity.text());
+
         }
 
+        function askToCart(){
+            console.log("장바구니로직");
+            //장바구니 로직
+            const memId = $("#memberId").val();
+            const itemid = $("#itemId").val();
+            const orderPrice = $("#itemPrice").val();
+            const color = $('input[name="selectedColor"]:checked').val();
+            const size = $('input[name="selectedSize"]:checked').val();
+            const quant = $("#orderQuantity").val();
+            console.log(quant);
+            console.log(memId);
+            if(memId == null || memId ==''){
+                alert("로그인 후 이용가능 합니다.");
+                return;
+            }
+            const SendDTO = {
+                itemId: itemid,
+                memId:memId,
+                quantity:parseInt(quant),
+                orderPrice:parseInt(orderPrice),
+                color:color,
+                size:size,
+            };
+            $.ajax({
+                url: "/cart/add",
+                data: SendDTO,
+                type: 'POST',
+                error: function() {
+                    console.log('통신실패!!');
+                },
+                success: function(data) {
 
+                    if(confirm("장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?")){
+                        let newForm = document.createElement("form");
+                        newForm.setAttribute("method", "GET");
+                        newForm.setAttribute("action", "/cart/list/1");
+                        $(document.body).append(newForm);
+                        newForm.submit();
+                    }else{
+                        // 다시 화면으로 돌아갑니다.
+                        location.href="/item/detail/"+itemid;
+                    }
+                }
+            });
+
+        }
     </script>
 
 </div>

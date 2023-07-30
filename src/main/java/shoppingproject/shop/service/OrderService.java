@@ -29,13 +29,34 @@ public class OrderService {
 
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
-
+        Order order;
         // 주문 생성
-        Order order = Order.createOrder(newOrder ,member, orderItems);
+        if(newOrder.getId() ==null) {
+            order = Order.createOrder(newOrder ,member, orderItems);
+            //주문 저장
+            orderRepository.save(order);
+            return order.getId();
+        }else{
+            order = orderRepository.findOne(newOrder.getId());
+           // order = Order.updateOrder(findOne ,member, orderItems)
 
-        //주문 저장
-        orderRepository.save(order);
-        return order.getId();
+            order.setId(newOrder.getId());
+           // order.setMember(member);
+            order.setRecipientInfo(newOrder.getRecipientInfo());
+            order.setSenderInfo(newOrder.getSenderInfo());
+            order.setOrderItemCnt(orderItems.size());
+                int totalPrice =0;
+                int totalItemPrice=0;
+                for(OrderItem orderItem : orderItems){
+                    orderItem.setId(orderItem.getId());
+                    order.addOrderItem(orderItem);
+                    totalItemPrice = orderItem.getOrderPrice() * orderItem.getQuantity();
+                    totalPrice += totalItemPrice;
+                }
+            order.setOrderItemCnt(orderItems.size());
+            order.setTotalItemPrice(totalPrice);
+            return order.getId();
+        }
 
 
     }

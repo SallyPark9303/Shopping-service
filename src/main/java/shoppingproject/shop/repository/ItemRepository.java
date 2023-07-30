@@ -1,6 +1,7 @@
 package shoppingproject.shop.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shoppingproject.shop.domain.Order;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class ItemRepository {
+    @PersistenceContext
     private final EntityManager em;
 
     public void save(Item item){

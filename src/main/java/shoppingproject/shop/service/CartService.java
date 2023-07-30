@@ -17,4 +17,8 @@ public class CartService {
     public void saveCart(Cart cart){
         cartRepository.save(cart);
     }
+    @Transactional
+    public Cart findOne(long id){
+        return cartRepository.findOne(id);
+    }
 }

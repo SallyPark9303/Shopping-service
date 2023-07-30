@@ -14,10 +14,11 @@ spring:
     properties:
       mail:
         smtp:
-          sarttls:
+          auth: true
+          starttls:
             enable: true
             required: true
-          auth: true
+
   sql:
     init:
       encoding=UTF-8

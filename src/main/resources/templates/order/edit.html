@@ -9,7 +9,7 @@
                 <form th:action="@{/order/save}" th:object="${order}" method="post">
                     <fieldset>
                         <legend class="text-center fw-bold py-5" style="border-bottom:2px solid;">주문서</legend>
-
+                        <input type="text" hidden="true" th:field="${order.id}"/>
                         <!--h3>주문리스트</h3-->
                         <div class="tbl-order" style="border-top:0; border-bottom:1px solid;">
                             <table>

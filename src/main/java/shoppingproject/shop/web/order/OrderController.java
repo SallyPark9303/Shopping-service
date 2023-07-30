@@ -1,6 +1,7 @@
 package shoppingproject.shop.web.order;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import shoppingproject.shop.service.ItemService;
 import shoppingproject.shop.service.MemberService;
 import shoppingproject.shop.service.OrderService;
 import shoppingproject.shop.domain.common.PagesUtils;
+import shoppingproject.shop.web.CommonConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +51,19 @@ public class OrderController {
     List<OrderItem> orderItems = new ArrayList<>();
     @PostMapping("/addForm")
     public String addForm(@ModelAttribute("item")Item item,  Model model,HttpServletRequest request){
+
+        Member member =(Member)request.getSession().getAttribute("loginMember");
+        model.addAttribute("warning", "로그인 후 사용가능합니다.");
+        if(member == null){
+            return "redirect:/detail/"+item.getId();
+        }
         Item finditem = itemService.findOne(item.getId());
         Order newOrder = new Order();
 
         OrderItem orderItem = OrderItem.createOrderItem(finditem,item.getOrderQuantity(),item.getSelectedColor(),item.getSelectedSize(), finditem.getPrice());
         orderItems.add(orderItem);
         newOrder.setOrderItem(orderItems);
-        Member member =(Member)request.getSession().getAttribute("loginMember");
+
         model.addAttribute("member",member);
         model.addAttribute("order",newOrder);
         newOrder.setEmail(member.getEmail());
@@ -63,16 +71,18 @@ public class OrderController {
         return "/order/add";
     }
 
-    @GetMapping("/add/{id}")
-    public String addFrom1(@PathVariable("id") long id){
+    @GetMapping("/add/{id}/{preLink}")
+    public String addFrom1(@PathVariable("id") long id, @PathVariable("preLink") String preLink, Model model){
         Item finditem = itemService.findOne(id);
         List<OrderItem> orderItems = new ArrayList<>();
+        model.addAttribute("preLink",preLink);
         return "/order/add";
     }
 
     @PostMapping("/save")
     public String saveOrder(Order order, Model model){
         Member member = (Member)model.getAttribute("member");
+
         orderService.order(order,member.getId(),orderItems);
 
         return "redirect:/order/list/1";

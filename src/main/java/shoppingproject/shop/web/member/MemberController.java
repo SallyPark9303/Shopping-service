@@ -4,19 +4,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.codehaus.groovy.runtime.metaclass.NewMetaMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shoppingproject.shop.domain.Gender;
 import shoppingproject.shop.domain.Member;
 import shoppingproject.shop.domain.UserType;
+import shoppingproject.shop.domain.email.EmailUtil;
+import shoppingproject.shop.repository.MemberFormRepository;
 import shoppingproject.shop.repository.MemberRepository;
 import shoppingproject.shop.service.MemberService;
 import shoppingproject.shop.web.CommonConst;
 import shoppingproject.shop.web.validation.MemberEditForm;
 import shoppingproject.shop.web.validation.MemberSaveForm;
+import shoppingproject.shop.web.validation.SignUpFormValidator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -43,6 +48,10 @@ public class MemberController {
 
     public final MemberService memberService;
     public final MemberRepository memberRepository;
+    public final SignUpFormValidator signUpFormValidator;
+    public final MemberFormRepository memberFormRepository;
+    private final EmailUtil emailUtil;
+
 
     @ModelAttribute("userTypes")
     public UserType[] GetUserTypes() {
@@ -65,21 +74,32 @@ public class MemberController {
 
     // 회원 가입로직
     @PostMapping("/joinForm")
-    public String joinSave(@Validated @ModelAttribute("mem") Member mem, BindingResult bindingResult,Model model){
+    public String joinSave(@Validated @ModelAttribute("mem") Member mem, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             log.info("errors={}",bindingResult);
             return "/member/joinForm";
         }
+
+      /*  signUpFormValidator.validate(mem,bindingResult);
+        if(bindingResult.hasErrors()){
+            log.info("errors={}",bindingResult);
+            return "/member/joinForm";
+        }*/
         // 저장 로직
         try {
-            memberService.join(mem);
+            Member member = memberService.join(mem);
+
+
+            return "/member/joinForm";
+
         } catch (Exception e) {
-            model.addAttribute("loginIdError","중복된 아이디가 있습니다.");
-            mem.setLoginId("");
+            //model.addAttribute("loginIdError","중복된 아이디가 있습니다.");
+            //mem.setLoginId("");
+
+            log.info("오류={}",e.getClass(),e);
             return "/member/joinForm";
 
         }
-        return "/home";
     }
 
     // 회원 상세 폼
@@ -137,7 +157,27 @@ public class MemberController {
         return "/home";
     }
 
+    // 이메일 체크
+    @GetMapping("/check-email-token")
+    public String checkEmailToken(String token, String email, Model model){ // repo 를 domain 과 같은 레벨로 봄
+       // Member member = memberFormRepository.findByEmail(email);
+        Member member  = new Member();
+        member.setEmail("won_1020@naver.com");
+        member.setEmailCheckToken("0e445360-cdb6-43b4-a655-303b83f46315");
+        member.setName("하늘이");
 
-
-
+        String view =  "/member/checked-email";
+        if(member == null){
+            model.addAttribute("error","잘못된 이메일입니다.");
+            return view;
+        }
+        if(!member.isValidToken(token)){
+            model.addAttribute("error","잘못된 토큰입니다.");
+            return view;
+        }
+        member.completeSignUp();
+        memberService.login(member);
+        model.addAttribute("nickname", member.getName());
+        return view;
+    }
 }

@@ -7,7 +7,9 @@
 <header th:replace="~{/fragment/header.html :: header}"></header>
 <body>
     <nav th:replace="~{/fragment/header.html:: nav}"></nav>
+<th:block th:if="${viewMode =='home'}" >
     <div th:replace="~{/fragment/home_banner.html :: banner}"></div>
+</th:block>
     <th:block layout:fragment="content"></th:block>
 
 </body>

@@ -28,5 +28,13 @@ public class EmailController {
                 , (String) "메일테스트"
         );
     }
+    public Map<String, Object> JoinSendEmail(String email, String subject, String content){
+
+
+        return emailUtil.sendEmail(  email
+                , subject
+                , content
+        );
+    }
 
 }

@@ -27,7 +27,7 @@ font-family: 'Noto Serif KR';
 
 .form-control:focus{
     box-shadow:none;
-    border-color:none;
+    border-color:transparent;
 }
 .field-error {
  border-color: #dc3545;
@@ -37,7 +37,7 @@ font-family: 'Noto Serif KR';
     box-shadow:none;
  }
  .btn,td,th,tr{
- font-size:11.5px;
+ font-size:1.5px;
  }
 
  .banner-str1, .font-logo{
